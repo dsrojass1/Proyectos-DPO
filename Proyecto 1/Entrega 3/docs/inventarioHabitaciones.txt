@@ -1,0 +1,1 @@
+1;es una habitacion;suit;ala norte piso 2 habitacion 231;2;true;false;true;123x123-1-false,124x124-1-false,
