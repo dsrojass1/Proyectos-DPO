@@ -1,6 +1,8 @@
 package view;
+import java.awt.Window.Type;
 import java.io.Console;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -376,6 +378,9 @@ public class Presentacion {
             else if (opcion == 3) {
             	System.out.print(consultarInventarioServicios());
             }
+            else if (opcion == 7) {
+            	realizarReserva();
+            }
     	}
     }
     
@@ -389,6 +394,33 @@ public class Presentacion {
     }
     
     private void realizarReserva() {
+    	String nombreTitular = "", documentoTitular = "", emailTitular = "", celularTitular = "", nombreAcompañante = "", documentoAcompañante = "", emailAcompañante = "", celularAcompañante = "", huespedAcompañante = "";
+    	System.out.println("¿Cual es tu nombre?");
+    	nombreTitular = scanner.nextLine();
+    	System.out.println("¿Cual es tu documento?");
+    	documentoTitular = scanner.nextLine();
+    	System.out.println("¿Cual es tu email?");
+    	emailTitular = scanner.nextLine();
+    	System.out.println("¿Cual es tu celular?");
+    	celularTitular = scanner.nextLine();
+    	int cantidadClientes = 0;
+    	System.out.println("¿Cual es la cantidad de clientes?");
+    	cantidadClientes = scanner.nextInt();
+    	
+    	for(int i= 1; i < cantidadClientes; i++) {
+    		System.out.println("¿Cual es el nombre del "+ i + "acompañante");
+        	nombreAcompañante = scanner.nextLine();
+        	System.out.println("¿Cual es el documento del "+ i + "acompañante");
+        	documentoAcompañante = scanner.nextLine();
+        	System.out.println("¿Cual es el email del "+ i + "acompañante");
+        	emailAcompañante = scanner.nextLine();
+        	System.out.println("¿Cual es el celular del "+ i + "acompañante");
+        	celularAcompañante = scanner.nextLine();
+        	huespedAcompañante = nombreTitular;
+        	
+        	//Esto toca cambiarlo, despues lo cambio por algo en el que se guarde en un archivo txt para que se guarde y después mostrar todo en consola
+    	}
+    	
     	
     }
     

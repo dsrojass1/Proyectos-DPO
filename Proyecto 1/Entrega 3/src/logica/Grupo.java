@@ -18,6 +18,17 @@ public class Grupo implements Serializable {
 
 	public ArrayList<Acompanante> getAcompanantes() {
 		return acompanantes;
+	}
+
+	
+	
+	
+	public void setHuesped(Huesped huesped) {
+		this.huesped = huesped;
+	}
+
+	public void setAcompanantes(ArrayList<Acompanante> acompanantes) {
+		this.acompanantes = acompanantes;
 	}	
 	
 	

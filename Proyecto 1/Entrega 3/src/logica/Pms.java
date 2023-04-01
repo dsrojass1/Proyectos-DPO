@@ -60,10 +60,17 @@ public class Pms implements Serializable {
 		return true;
 	}
 	
-	public boolean hacerReserva(String nombreTitular, String documentoTitular, String emailTitular,
+	public String hacerReserva(String nombreTitular, String documentoTitular, String emailTitular,
 			String celularTitular, int cantidadClientes, ArrayList<String> datosAcompañantes, ArrayList<LocalDate> nochesSeleccionadas) {
-		// TODO Auto-generated method stub
-		return true;
+			Huesped huesped = new Huesped(nombreTitular, documentoTitular, emailTitular, celularTitular);
+			String[] datosacompanantes= new String[cantidadClientes * 5];
+			/* CREO QUE ESTO YA NO HACE FALTA
+			for(int i=1; i < cantidadClientes; i++) {
+				
+			}
+			*/
+			
+		return "";
 	}
 	
 	public boolean cancelarReserva(String documentoTitular) {
