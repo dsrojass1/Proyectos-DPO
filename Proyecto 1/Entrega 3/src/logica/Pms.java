@@ -94,23 +94,21 @@ public class Pms implements Serializable {
 				srvc.asignarServicioCliente(grupo.getHuesped());
 			}
 			
-			if(pagoInmediato || asignarAHabitacion) 
+			Reserva reserva = getReserva(grupo);
+			reserva.sumarDeuda(srvc.getPrecio());
+			if(pagoInmediato) 
 			{
-				Reserva reserva = getReserva(grupo);
-				if(pagoInmediato) 
-				{
-					//restar a la deuda total
-					reserva.sumarDeuda(-(srvc.getPrecio()));
-				}
-				if(asignarAHabitacion) 
-				{
-					//obtener las habitaciones de la reserva
-					ArrayList<Habitacion> sHabitaciones = reserva.getHabitacionesSeleccionadas();
-					sHabitaciones.get(0).agregarServicio(srvc);
-					
-				}
-				
+				//restar a la deuda total
+				reserva.sumarDeuda(-(srvc.getPrecio()));
 			}
+			if(asignarAHabitacion) 
+			{
+				//obtener las habitaciones de la reserva
+				ArrayList<Habitacion> sHabitaciones = reserva.getHabitacionesSeleccionadas();
+				sHabitaciones.get(0).agregarServicio(srvc);
+					
+			}
+				
 			done = true;
 		}
 		
@@ -167,8 +165,7 @@ public class Pms implements Serializable {
 		//Variables necesarias para ejecucion
 		Reserva reserva = getReserva(documentoTitular);
 		//Mostrar historial de grupo
-		generarHistorialGrupo(documentoTitular);
-		
+		System.out.println(generarHistorialGrupo(documentoTitular));
 		//Mostrar pagos, duedas, etc
 		System.out.println(reserva.getDeuda());
 		return true;
@@ -230,8 +227,8 @@ public class Pms implements Serializable {
 	}
 	
 	public ArrayList<LocalDate> sortListByDate(String date1, String date2) {
-	    LocalDate start = LocalDate.parse(date1, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	    LocalDate end = LocalDate.parse(date2, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    LocalDate start = LocalDate.parse(date1, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+	    LocalDate end = LocalDate.parse(date2, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
 	    int days = (int) start.until(end, ChronoUnit.DAYS);
 
