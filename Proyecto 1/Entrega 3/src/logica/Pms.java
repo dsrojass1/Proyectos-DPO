@@ -55,10 +55,60 @@ public class Pms implements Serializable {
 	}
 	
 	public boolean registrarServicio(String idServicio, boolean pagoInmediato, boolean asignarAHabitacion, String documentoTitular,
-			ArrayList<String> documentosClientes) {
-		// TODO Auto-generated method stub
-		return true;
+		ArrayList<String> documentosClientes, boolean usarHTitular) {
+		
+		//variables necesarias para registro
+		boolean done=false;
+		Servicio srvc= null;
+		Grupo grupo=getGrupoTD(documentoTitular);
+		//Obtener servicio por id
+		for(Servicio servicio : inventarioServicios) 
+		{
+			if(servicio.getId() == idServicio) 
+			{
+				srvc = servicio;
+			}
+		}
+		//verificar que el servicio y el grupo existan
+		if (srvc != null && grupo!=null) 
+		{
+			//asignar a clientes acompañantes
+			ArrayList<Acompanante> acompanantes = grupo.getAcompanantes();
+			for (Acompanante acompanante : acompanantes) 
+			{
+				//añadir consumo
+				srvc.asignarServicioCliente(acompanante);
+				//acompanante.getHuesped().consumos.add(srvc);
+			}
+			// añadir consumo al huesped si es necesario
+			if (usarHTitular == true) 
+			{
+				srvc.asignarServicioCliente(grupo.getHuesped());
+			}
+			
+			if(pagoInmediato || asignarAHabitacion) 
+			{
+				Reserva reserva = getReserva(grupo);
+				if(pagoInmediato) 
+				{
+					//restar a la deuda total
+					reserva.sumarDeuda(-(srvc.getPrecio()));
+				}
+				if(asignarAHabitacion) 
+				{
+					//obtener las habitaciones de la reserva
+					ArrayList<Habitacion> sHabitaciones = reserva.getHabitacionesSeleccionadas();
+					sHabitaciones.get(0).agregarServicio(srvc);
+					
+				}
+				
+			}
+			done = true;
+		}
+		
+		return done;
 	}
+	
 	
 	public String hacerReserva(String nombreTitular, String documentoTitular, String emailTitular,
 			String celularTitular, int cantidadClientes, ArrayList<String> datosAcompañantes, ArrayList<LocalDate> nochesSeleccionadas) {
@@ -79,11 +129,70 @@ public class Pms implements Serializable {
 	}
 	
 	public boolean realizarCheckOut(String documentoTitular) {
-		// TODO Auto-generated method stub
+		
+		//Variables necesarias para ejecucion
+		Reserva reserva = getReserva(documentoTitular);
+		
+		//Mostrar historial de grupo
+		generarHistorialGrupo(documentoTitular);
+		
 		return true;
 	}
 	
 	
+	//-------------------------------------------------------------------
+	//FUNCIONES DE BUSQUEDA-----------------------------------------
+	//--------------------------------------------------------------
+	
+	public Grupo getGrupoTD (String documentoTitular) 
+	//buscar un grupo dado el documento del huesped titular
+	{
+		Grupo grupo=null;
+			
+		//buscar grupo
+			
+		for(Grupo g : grupos) 
+		{
+			if(g.getHuesped().getDocumento() == documentoTitular) 
+			{
+				grupo = g;
+			}
+		}
+		return grupo;
+	}
+		
+	public Reserva getReserva (String documentoTitular) 
+	//buscar una reserva dado el documento del huesped titular
+	{
+		Grupo grupo=getGrupoTD(documentoTitular);
+		Reserva reserva = null;
+		//buscar reserva
+		if(grupo!=null) 
+		{
+			for(Reserva r : reservas) 
+			{
+				if(r.getGrupo().getHuesped().documento==documentoTitular) 
+				{
+					reserva=r;
+				}
+			}
+		}
+		return reserva;
+	}
+	
+	public Reserva getReserva(Grupo grupo) 
+	{
+		//Obtener reserva teniendo en cuenta un grupo
+		Reserva reserva=null;
+		for(Reserva r : reservas) 
+		{
+			if(r.getGrupo().getHuesped().getDocumento()==grupo.getHuesped().getDocumento()) 
+			{
+				reserva=r;
+			}
+		}
+		return reserva;
+	}
 	//---------------------------------------------------------------------------------------------------------------------
 	// CREAR --------------------------------------------------------------------------------------------------------------
 	//---------------------------------------------------------------------------------------------------------------------

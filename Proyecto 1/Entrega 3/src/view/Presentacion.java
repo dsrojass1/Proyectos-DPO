@@ -378,19 +378,72 @@ public class Presentacion {
             else if (opcion == 3) {
             	System.out.print(consultarInventarioServicios());
             }
+            else if(opcion == 4) 
+            {
+            	registrarServicio();
+            }
+            else if(opcion == 5) 
+            {
+            	hacerCheckOut();
+            }
             else if (opcion == 7) {
             	realizarReserva();
+            }
+            else if (opcion == 8) 
+            {
+            	cancelarReserva();
             }
     	}
     }
     
     
     private void registrarServicio() {
+    	//obtener las variables que permitiran buscar al cliente
+    	System.out.println("Digite el numero de documento del huesped titular: ");
+    	String documentoTitular=scanner.nextLine();
+    	ArrayList<String> documentoClientes= new ArrayList<String>();
+    	
+    	//obtener la id del servicio
+    	System.out.println("Digite el id del servicio: ");
+    	String idServicio=scanner.nextLine();
+    	
+    	//pedir los dicumentos de los acompañantes y verificar si el titular tambien usara el servicio
+    	System.out.println("Digite el numero de clientes que usaran el servicio");
+    	int nClientes=scanner.nextInt();
+    	for (int i = 0; i < nClientes; i++) {
+			documentoClientes.add(scanner.nextLine());
+		}
+    	System.out.println("¿El huesped titular tambien usara el servicio? (true/false)");
+    	boolean huespedTUse=Boolean.getBoolean(scanner.nextLine());
+    	//Asignar servicio a la habitacion?
+    	System.out.println("¿Asignar el servicio a la habitación? (true/false)");
+    	boolean asignarHabitacion= Boolean.getBoolean(scanner.nextLine());
+    	
+    	//Se hara el pago de manera inmediata?
+    	System.out.println("¿Hacer pago inmediato? (true/false)");
+    	boolean pagoInmediato= Boolean.getBoolean(scanner.nextLine());
+    	
+    	//registrar el servicio
+    	boolean registred = pms.registrarServicio(idServicio, pagoInmediato, asignarHabitacion, documentoTitular, documentoClientes, huespedTUse);
+    	
+    	//Confirmar accion
+    	if(registred == true) 
+    	{
+    		System.out.println("Servicio registrado.");
+    	}else 
+    	{
+    		System.out.println("Hubo un error, verifique que el documento del huesped y el id del servicio sean correctos");
+    	}
+    	
     	
     }
     
     private void hacerCheckOut() {
     	
+    	//obtener las variables que permitiran buscar al cliente
+    	System.out.println("Digite el numero de documento del huesped titular: ");
+    	String documentoTitular=scanner.nextLine();
+    	pms.realizarCheckOut(documentoTitular);
     }
     
     private void realizarReserva() {

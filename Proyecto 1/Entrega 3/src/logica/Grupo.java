@@ -21,8 +21,6 @@ public class Grupo implements Serializable {
 	}
 
 	
-	
-	
 	public void setHuesped(Huesped huesped) {
 		this.huesped = huesped;
 	}

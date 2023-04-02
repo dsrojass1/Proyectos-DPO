@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Reserva implements Serializable {
 	private Grupo grupo;
+	private int deuda;
 	private ArrayList<LocalDate> nochesSeleccionadas;
 	private ArrayList<Habitacion> habitacionesSeleccionadas;
 	
@@ -14,8 +15,24 @@ public class Reserva implements Serializable {
 		this.grupo = grupo;
 		this.nochesSeleccionadas = nochesSeleccionadas;
 		this.habitacionesSeleccionadas = habitacionesSeleccionadas;
+		this.deuda=0;
+		for (Habitacion habitacion : habitacionesSeleccionadas) 
+		{
+			deuda+= habitacion.getPrecio()*nochesSeleccionadas.size();
+		}
+		
 	}
-
+	
+	public int getDeuda() 
+	{
+		return this.deuda;
+	}
+	
+	public void sumarDeuda(int sumValue) 
+	{
+		this.deuda+=sumValue;
+	}
+	
 	public Grupo getGrupo() {
 		return grupo;
 	}

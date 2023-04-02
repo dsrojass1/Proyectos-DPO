@@ -48,8 +48,13 @@ public class Spa implements Servicio, Serializable {
 
 	@Override
 	public boolean asignarServicioCliente(Cliente cliente) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			cliente.consumos.add(this);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
 	}
 
 	@Override
