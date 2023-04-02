@@ -386,10 +386,10 @@ public class Presentacion {
             {
             	hacerCheckOut();
             }
-            else if (opcion == 7) {
+            else if (opcion == 6) {
             	realizarReserva();
             }
-            else if (opcion == 8) 
+            else if (opcion == 7) 
             {
             	cancelarReserva();
             }
@@ -447,33 +447,49 @@ public class Presentacion {
     }
     
     private void realizarReserva() {
-    	String nombreTitular = "", documentoTitular = "", emailTitular = "", celularTitular = "", nombreAcompañante = "", documentoAcompañante = "", emailAcompañante = "", celularAcompañante = "", huespedAcompañante = "";
+    	//datos del huesped titular
+    	String nombreTitular = "", documentoTitular = "", emailTitular = "", celularTitular = "";
     	System.out.println("¿Cual es tu nombre?");
-    	nombreTitular = scanner.nextLine();
+    	nombreTitular = scanner.next();
     	System.out.println("¿Cual es tu documento?");
-    	documentoTitular = scanner.nextLine();
+    	documentoTitular = scanner.next();
     	System.out.println("¿Cual es tu email?");
-    	emailTitular = scanner.nextLine();
+    	emailTitular = scanner.next();
     	System.out.println("¿Cual es tu celular?");
-    	celularTitular = scanner.nextLine();
+    	celularTitular = scanner.next();
     	int cantidadClientes = 0;
     	System.out.println("¿Cual es la cantidad de clientes?");
     	cantidadClientes = scanner.nextInt();
     	
+    	//datos de los acompañantes
+    	ArrayList<String> datosAcompanantes=new ArrayList<String>();
     	for(int i= 1; i < cantidadClientes; i++) {
-    		System.out.println("¿Cual es el nombre del "+ i + "acompañante");
-        	nombreAcompañante = scanner.nextLine();
-        	System.out.println("¿Cual es el documento del "+ i + "acompañante");
-        	documentoAcompañante = scanner.nextLine();
-        	System.out.println("¿Cual es el email del "+ i + "acompañante");
-        	emailAcompañante = scanner.nextLine();
-        	System.out.println("¿Cual es el celular del "+ i + "acompañante");
-        	celularAcompañante = scanner.nextLine();
-        	huespedAcompañante = nombreTitular;
-        	
-        	//Esto toca cambiarlo, despues lo cambio por algo en el que se guarde en un archivo txt para que se guarde y después mostrar todo en consola
+    		String acompanante="";
+    		System.out.println("¿Cual es el nombre del "+ i + " acompañante");
+        	acompanante += scanner.next();
+        	System.out.println("¿Cual es el documento del "+ i + " acompañante");
+        	acompanante += ";"+scanner.next();
+        	System.out.println("¿Cual es el email del "+ i + " acompañante");
+        	acompanante += ";"+scanner.next();
+        	System.out.println("¿Cual es el celular del "+ i + " acompañante");
+        	acompanante += ";"+scanner.next();
+        	acompanante += ";"+nombreTitular;
+        	datosAcompanantes.add(acompanante);
     	}
     	
+    	//Manejar las fechas de hospedaje
+    	System.out.println("¿Desde que fecha desea hospedarse? (formato: DD/MM/YYYY)");
+    	String date1= scanner.next();
+    	System.out.println("¿Hasta que fecha desea hospedarse? (formato: DD/MM/YYYY)");
+    	String date2= scanner.next();
+    	
+    	//obtener el rango de fechas
+    	ArrayList<LocalDate> rangoFechas = pms.sortListByDate(date1, date2);
+    	//verificar que habitaciones estan libres en el rango de fechas--------
+    	
+    	
+    	//Hacer la reserva
+    	pms.hacerReserva(nombreTitular, documentoTitular, emailTitular, celularTitular, cantidadClientes, datosAcompanantes, rangoFechas);	
     	
     }
     
