@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import persistencia.Persistencia;
+import view.Presentacion;
 
 public class Pms implements Serializable {
 	private ArrayList<Habitacion> inventarioHabitaciones;
@@ -127,14 +128,14 @@ public class Pms implements Serializable {
 			if (cantidadClientes > 1) 
 			{
 				acompanantes = new ArrayList<Acompanante>();
-			}
-			//Crear acompañantes
-			for(String datoAcompanante : datosAcompañantes) 
-			{
-				String[] datos = datoAcompanante.split(";");
-				String nombre = datos[0], documento = datos[1], email=datos[2], celular=datos[3], huespedT = datos[4];
-				Acompanante a = new Acompanante(nombre, documento, email, celular, huesped);
-				acompanantes.add(a);
+				//Crear acompañantes
+				for(String datoAcompanante : datosAcompañantes) 
+				{
+					String[] datos = datoAcompanante.split(";");
+					String nombre = datos[0], documento = datos[1], email=datos[2], celular=datos[3], huespedT = datos[4];
+					Acompanante a = new Acompanante(nombre, documento, email, celular, huesped);
+					acompanantes.add(a);
+				}
 			}
 			//crear el grupo
 			 Grupo newGrupo = new Grupo(huesped, acompanantes);
@@ -145,7 +146,7 @@ public class Pms implements Serializable {
 			 String inventarioH = mostrarInventarioHabitaciones(habitacionesDisponibles);
 			 System.out.println(inventarioH);
 			 //Asignar habitacion para cada acompañante y para el titular
-			 ArrayList<Habitacion> habitacionesTomadas = AsignarHabitaciones(acompanantes, huesped, habitacionesDisponibles);
+			 ArrayList<Habitacion> habitacionesTomadas = AsignarHabitaciones(acompanantes, huesped, habitacionesDisponibles, cantidadClientes);
 			 //realizar reserva
 			 Reserva newReserva = new Reserva(newGrupo, nochesSeleccionadas, habitacionesTomadas);
 			 //agregar a inventarios
@@ -153,7 +154,7 @@ public class Pms implements Serializable {
 			 reservas.add(newReserva);
 			 
 			 
-		return "";
+		return "Se ha registrado el grupo con el titular " + newGrupo.getHuesped();
 	}
 	
 	public boolean cancelarReserva(String documentoTitular) {
@@ -220,7 +221,7 @@ public class Pms implements Serializable {
 		Reserva reserva=null;
 		for(Reserva r : reservas) 
 		{
-			if(r.getGrupo().getHuesped().getDocumento()==grupo.getHuesped().getDocumento()) 
+			if(r.getGrupo().getHuesped().getDocumento().equals(grupo.getHuesped().getDocumento())) 
 			{
 				reserva=r;
 			}
@@ -273,7 +274,8 @@ public class Pms implements Serializable {
 	}
 	
 	
-	private ArrayList<Habitacion> AsignarHabitaciones(ArrayList<Acompanante> acompanantes, Huesped huesped, ArrayList<Habitacion> habitacionesD) 
+	private ArrayList<Habitacion> AsignarHabitaciones(ArrayList<Acompanante> acompanantes, Huesped huesped,
+			ArrayList<Habitacion> habitacionesD, int cantidadClientes) 
 	{
 		HashMap<String, Integer> controlCapacidadHabitaciones = new HashMap<String, Integer>();
 		
@@ -286,13 +288,13 @@ public class Pms implements Serializable {
 		
 		//Asignar las habitaciones para cada acompanante
 		ArrayList<Habitacion> hTomadas= new ArrayList<Habitacion>();
-		if(acompanantes != null)
+		if(acompanantes != null || cantidadClientes>1)
 		{
 			for(Acompanante a : acompanantes) 
 			{
 				System.out.println(mostrarInventarioHabitaciones(habitacionesD));
 				System.out.println("Digite ID de la habitacion que desea asignar: ");
-				String id = this.scanner.nextLine();
+				String id = Presentacion.scanner.next();
 				//asignar a habitacion a los acompañantes
 				Habitacion habita = buscarAsignarHabitacion(a, habitacionesD, id, controlCapacidadHabitaciones, huesped);
 				if(habita != null) 
@@ -302,8 +304,8 @@ public class Pms implements Serializable {
 			}
 		}
 		//para el huesped
-		System.out.println("Digite ID de la habitacion que desea asignar: ");
-		String id2 = this.scanner.nextLine();
+		System.out.println("Digite ID de la habitacion que desea asignar para el titular: ");
+		String id2 = Presentacion.scanner.next();
 		Habitacion habita = buscarAsignarHabitacion(huesped, habitacionesD, id2, controlCapacidadHabitaciones, huesped);
 		if(habita != null) 
 		{
@@ -314,10 +316,11 @@ public class Pms implements Serializable {
 	
 	private Habitacion buscarAsignarHabitacion(Cliente cliente, ArrayList<Habitacion> inventario, String id, HashMap<String, Integer> cH, Huesped titular) 
 	{
-		Habitacion tomada= null;
+		Habitacion habitacion=null;
 		for(Habitacion h : inventario) 
 		{
-			if (id == h.getId())
+			
+			if (id.equals(h.getId()))
 			{
 				h.asignarCliente(cliente);
 				h.asignarTitular(titular);
@@ -331,10 +334,11 @@ public class Pms implements Serializable {
 					cH.remove(id);
 				}
 				//marcar la habitacion como ocupada
-				tomada = h;
+				
+				habitacion = h;
 			}
 		}
-		return (Habitacion)tomada;
+		return habitacion;
 	}
 	
 	

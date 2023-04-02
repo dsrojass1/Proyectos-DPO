@@ -12,7 +12,7 @@ import persistencia.Persistencia;
 
 public class Presentacion {
 	private Pms pms;
-	private Scanner scanner;
+	public static Scanner scanner;
 	
 	public Presentacion() {
 		scanner = new Scanner(System.in);
@@ -450,13 +450,13 @@ public class Presentacion {
     	//datos del huesped titular
     	String nombreTitular = "", documentoTitular = "", emailTitular = "", celularTitular = "";
     	System.out.println("¿Cual es tu nombre?");
-    	nombreTitular = scanner.next();
+    	nombreTitular = scanner.nextLine();
     	System.out.println("¿Cual es tu documento?");
-    	documentoTitular = scanner.next();
+    	documentoTitular = scanner.nextLine();
     	System.out.println("¿Cual es tu email?");
-    	emailTitular = scanner.next();
+    	emailTitular = scanner.nextLine();
     	System.out.println("¿Cual es tu celular?");
-    	celularTitular = scanner.next();
+    	celularTitular = scanner.nextLine();
     	int cantidadClientes = 0;
     	System.out.println("¿Cual es la cantidad de clientes?");
     	cantidadClientes = scanner.nextInt();
@@ -489,7 +489,7 @@ public class Presentacion {
     	
     	
     	//Hacer la reserva
-    	pms.hacerReserva(nombreTitular, documentoTitular, emailTitular, celularTitular, cantidadClientes, datosAcompanantes, rangoFechas);	
+    	System.out.println(pms.hacerReserva(nombreTitular, documentoTitular, emailTitular, celularTitular, cantidadClientes, datosAcompanantes, rangoFechas));	
     	
     }
     

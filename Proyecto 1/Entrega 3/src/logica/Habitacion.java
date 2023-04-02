@@ -137,7 +137,8 @@ public class Habitacion implements Servicio, Serializable {
 	}
 	
 	public boolean asignarTitular(Huesped titular) {
-		if (this.titular.getDocumento().equalsIgnoreCase(titular.getDocumento())) {
+		
+		if (this.titular != null && this.titular.getDocumento().equalsIgnoreCase(titular.getDocumento())) {
 			return false;
 		}
 		else {
