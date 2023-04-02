@@ -74,7 +74,7 @@ public class Pms implements Serializable {
 		//Obtener servicio por id
 		for(Servicio servicio : inventarioServicios) 
 		{
-			if(servicio.getId() == idServicio) 
+			if(servicio.getId().equals(idServicio)) 
 			{
 				srvc = servicio;
 			}
@@ -83,7 +83,7 @@ public class Pms implements Serializable {
 		if (srvc != null && grupo!=null) 
 		{
 			//asignar a clientes acompañantes
-			ArrayList<Acompanante> acompanantes = grupo.getAcompanantes();
+			ArrayList<Acompanante> acompanantes = getAcompañantesbyDocuments(documentosClientes, grupo);
 			for (Acompanante acompanante : acompanantes) 
 			{
 				//añadir consumo
@@ -193,6 +193,22 @@ public class Pms implements Serializable {
 	//-------------------------------------------------------------------
 	//FUNCIONES DE BUSQUEDA-----------------------------------------
 	//--------------------------------------------------------------
+	
+	public ArrayList<Acompanante> getAcompañantesbyDocuments(ArrayList<String> Documentos, Grupo grupo)
+	{
+		ArrayList<Acompanante> acompananteByID=new ArrayList<Acompanante>();
+		for(Acompanante acompanante : grupo.getAcompanantes()) 
+		{
+			for(String documento : Documentos) 
+			{
+				if(acompanante.getDocumento().equals(documento)) 
+				{
+					acompananteByID.add(acompanante);
+				}
+			}
+		}
+		return acompananteByID;
+	}
 	
 	public Grupo getGrupoTD (String documentoTitular) 
 	//buscar un grupo dado el documento del huesped titular

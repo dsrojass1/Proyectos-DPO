@@ -403,12 +403,16 @@ public class Presentacion {
     	String documentoTitular=scanner.nextLine();
     	ArrayList<String> documentoClientes= new ArrayList<String>();
     	
+    	//Mostrar los servicios disponibles
+    	System.out.println("Inventario de servicios: ");
+    	System.out.println(consultarInventarioServicios());
+    	
     	//obtener la id del servicio
     	System.out.println("Digite el id del servicio: ");
     	String idServicio=scanner.nextLine();
     	
     	//pedir los dicumentos de los acompañantes y verificar si el titular tambien usara el servicio
-    	System.out.println("Digite el numero de clientes que usaran el servicio");
+    	System.out.println("Digite el numero de clientes que usaran el servicio (sin tener en cuenta el titular)");
     	int nClientes=scanner.nextInt();
     	for (int i = 0; i < nClientes; i++) {
 			documentoClientes.add(scanner.nextLine());
