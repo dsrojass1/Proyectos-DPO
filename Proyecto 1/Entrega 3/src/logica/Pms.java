@@ -54,8 +54,10 @@ public class Pms implements Serializable {
 			if (grupoRegistrado.getHuesped().getDocumento().equalsIgnoreCase(idTitular)) {
 				historial = "Huesped: \n" + grupoRegistrado.getHuesped().generarHistorial();
 				historial += "Acompañantes: \n";
+				if(grupoRegistrado.getAcompanantes()!= null) {
 				for (Acompanante acompanante: grupoRegistrado.getAcompanantes()) {
 					historial += acompanante.generarHistorial();
+				}
 				}
 			}
 		}
@@ -164,11 +166,27 @@ public class Pms implements Serializable {
 		
 		//Variables necesarias para ejecucion
 		Reserva reserva = getReserva(documentoTitular);
-		//Mostrar historial de grupo
-		System.out.println(generarHistorialGrupo(documentoTitular));
-		//Mostrar pagos, duedas, etc
-		System.out.println(reserva.getDeuda());
-		return true;
+		if(reserva !=null)
+		{
+			//Mostrar historial de grupo
+			String historialGrupo=generarHistorialGrupo(documentoTitular);
+			System.out.println(historialGrupo);
+			//Mostrar pagos, duedas, etc
+			System.out.println("El monto que le falta por pagar es: ");
+			System.out.println(reserva.getDeuda());
+			
+			//agregar al historial de huespedes
+			this.historialHuespedes.add(historialGrupo);
+			
+			//eliminar los grupo del inventario de grupos
+			Grupo grupo = reserva.getGrupo();
+			grupos.remove(grupo);
+			//eliminar reserva
+			reservas.remove(reserva);
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
@@ -185,7 +203,7 @@ public class Pms implements Serializable {
 			
 		for(Grupo g : grupos) 
 		{
-			if(g.getHuesped().getDocumento() == documentoTitular) 
+			if(g.getHuesped().getDocumento().equals(documentoTitular)) 
 			{
 				grupo = g;
 			}
@@ -203,7 +221,7 @@ public class Pms implements Serializable {
 		{
 			for(Reserva r : reservas) 
 			{
-				if(r.getGrupo().getHuesped().documento==documentoTitular) 
+				if(r.getGrupo().getHuesped().documento.equals(documentoTitular)) 
 				{
 					reserva=r;
 				}

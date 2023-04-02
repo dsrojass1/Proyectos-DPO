@@ -443,7 +443,13 @@ public class Presentacion {
     	//obtener las variables que permitiran buscar al cliente
     	System.out.println("Digite el numero de documento del huesped titular: ");
     	String documentoTitular=scanner.nextLine();
-    	pms.realizarCheckOut(documentoTitular);
+    	if(pms.realizarCheckOut(documentoTitular)) 
+    	{
+    		System.out.println("Realizado con exito");
+    	}else 
+    	{
+    		System.out.println("Ocurrio un error, digite de nuevo el documento del titular");
+    	}
     }
     
     private void realizarReserva() {
