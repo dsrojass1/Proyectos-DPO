@@ -170,6 +170,11 @@ public class Pms implements Serializable {
 					
 					//agregar al historial de huespedes
 					this.historialHuespedes.add(historialGrupo);
+					//eliminar datos de las habitaciones
+					for(Habitacion habb : reserva.getHabitacionesSeleccionadas()) 
+					{
+						habb.hacerCheckOut();
+					}
 					
 					//eliminar los grupo del inventario de grupos
 					grupos.remove(grupo);
@@ -196,9 +201,15 @@ public class Pms implements Serializable {
 			System.out.println("El monto que le falta por pagar es: ");
 			System.out.println(reserva.getDeuda()+getValorHabitaciones(reserva, reserva.getNochesSeleccionadas().size()));
 			
+			
 			//agregar al historial de huespedes
 			this.historialHuespedes.add(historialGrupo);
 			
+			//eliminar datos de las habitaciones
+			for(Habitacion habb : reserva.getHabitacionesSeleccionadas()) 
+			{
+				habb.hacerCheckOut();
+			}
 			//eliminar los grupo del inventario de grupos
 			grupos.remove(grupo);
 			//eliminar reserva

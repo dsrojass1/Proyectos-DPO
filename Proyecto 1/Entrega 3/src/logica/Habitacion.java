@@ -123,7 +123,9 @@ public class Habitacion implements Servicio, Serializable {
 	}
 	
 	public void hacerCheckOut() {
-		
+		this.hosepedados.clear();
+		this.titular =null;
+		this.serviciosAsignados.clear();
 	}
 	
 	public boolean asignarCliente(Cliente hospedado) {
@@ -175,7 +177,13 @@ public class Habitacion implements Servicio, Serializable {
 	
 	@Override
 	public int getPrecio() {
-		return 0;
+		try {
+			return tarifas.get(0).getPrecio();
+		} catch (Exception e) {
+			System.out.println("Hubo un error en el sistema, se pasara a cobrar el monto minimo para esta habitacion");
+			return 100000;
+		}
+		
 	}
 	
 }
