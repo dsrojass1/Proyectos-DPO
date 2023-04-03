@@ -488,9 +488,9 @@ public class Presentacion {
     	}
     	
     	//Manejar las fechas de hospedaje
-    	System.out.println("¿Desde que fecha desea hospedarse? (formato: DD/MM/YYYY)");
+    	System.out.println("¿Desde que fecha desea hospedarse? (formato: DD-MM-YYYY)");
     	String date1= scanner.next();
-    	System.out.println("¿Hasta que fecha desea hospedarse? (formato: DD/MM/YYYY)");
+    	System.out.println("¿Hasta que fecha desea hospedarse? (formato: DD-MM-YYYY)");
     	String date2= scanner.next();
     	
     	//obtener el rango de fechas
