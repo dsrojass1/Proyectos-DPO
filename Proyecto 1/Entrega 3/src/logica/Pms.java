@@ -157,9 +157,31 @@ public class Pms implements Serializable {
 		return "Se ha registrado el grupo con el titular " + newGrupo.getHuesped();
 	}
 	
-	public boolean cancelarReserva(String documentoTitular) {
-		// TODO Auto-generated method stub
-		return true;
+	public boolean cancelarReserva(String documentoTitular, int diasUsados) {
+		//Variables necesarias para ejecucion
+				Reserva reserva = getReserva(documentoTitular);
+				if(reserva !=null)
+				{
+					Grupo grupo = reserva.getGrupo();
+					//Mostrar historial de grupo
+					String historialGrupo=generarHistorialGrupo(documentoTitular);
+					System.out.println(historialGrupo);
+					//Mostrar pagos, duedas, etc
+					
+					System.out.println("El monto que le falta por pagar es: ");
+					System.out.println(reserva.getDeuda()+getValorHabitaciones(reserva, diasUsados));
+					
+					//agregar al historial de huespedes
+					this.historialHuespedes.add(historialGrupo);
+					
+					//eliminar los grupo del inventario de grupos
+					grupos.remove(grupo);
+					//eliminar reserva
+					reservas.remove(reserva);
+					return true;
+				}
+				
+				return false;
 	}
 	
 	public boolean realizarCheckOut(String documentoTitular) {
@@ -168,18 +190,19 @@ public class Pms implements Serializable {
 		Reserva reserva = getReserva(documentoTitular);
 		if(reserva !=null)
 		{
+			Grupo grupo = reserva.getGrupo();
 			//Mostrar historial de grupo
 			String historialGrupo=generarHistorialGrupo(documentoTitular);
 			System.out.println(historialGrupo);
 			//Mostrar pagos, duedas, etc
+			
 			System.out.println("El monto que le falta por pagar es: ");
-			System.out.println(reserva.getDeuda());
+			System.out.println(reserva.getDeuda()+getValorHabitaciones(reserva, reserva.getNochesSeleccionadas().size()));
 			
 			//agregar al historial de huespedes
 			this.historialHuespedes.add(historialGrupo);
 			
 			//eliminar los grupo del inventario de grupos
-			Grupo grupo = reserva.getGrupo();
 			grupos.remove(grupo);
 			//eliminar reserva
 			reservas.remove(reserva);
@@ -193,6 +216,16 @@ public class Pms implements Serializable {
 	//-------------------------------------------------------------------
 	//FUNCIONES DE BUSQUEDA-----------------------------------------
 	//--------------------------------------------------------------
+	
+	public int getValorHabitaciones(Reserva reserva, int nDias) 
+	{
+		int valor=0;
+		for(Habitacion habitacion : reserva.getHabitacionesSeleccionadas()) 
+		{
+			valor+=habitacion.getPrecio()*nDias;
+		}
+		return valor;
+	}
 	
 	public ArrayList<Acompanante> getAcompañantesbyDocuments(ArrayList<String> Documentos, Grupo grupo)
 	{
