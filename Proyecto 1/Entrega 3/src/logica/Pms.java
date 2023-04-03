@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,7 +25,6 @@ public class Pms implements Serializable {
 	private ArrayList<String> facturas;
 	private ArrayList<String> historialHuespedes;
 	private ArrayList<Usuario> usuarios;
-	private Scanner scanner;
 	
 	private Persistencia persistencia;
 
@@ -40,7 +38,6 @@ public class Pms implements Serializable {
 		this.historialHuespedes = new ArrayList<String>();
 		this.usuarios = new ArrayList<Usuario>();
 		this.persistencia = new Persistencia();
-		this.scanner = new Scanner(System.in);
 	}
 	
 	
