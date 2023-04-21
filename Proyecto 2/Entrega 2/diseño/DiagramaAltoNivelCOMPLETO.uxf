@@ -1,0 +1,1384 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>4</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>348</x>
+      <y>156</y>
+      <w>152</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Servicio
+&lt;&lt;interface&gt;&gt;
+--
++registrarServicio(boolean pagoInmediato, 
+                             boolean asignarAHabitacion,
+                             Huesped titular)
+-asignarServicioCliente(Cliente cliente) : void
+-registrarPago(): String
+-generarFactura(): String
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>232</x>
+      <y>200</y>
+      <w>108</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>Habitacion
+--
+-id: String
+-tarifas: ArrayList&lt;Tarifa&gt;
+-descripcion: String
+-tipo: String
+-ubicacion: String
+-capacidad: int
+-balcon: boolean
+-vista: boolean
+-cocinaIntegrada: boolean
+-camas: ArrayList&lt;Cama&gt;
+-servicios: ArrayList&lt;Servicio&gt;
+-huesped: Huesped
+-hospedados: ArrayList&lt;Cliente&gt;
+--
++Habitacion(String id, 
+                    String tipo, 
+                    String ubicacion,  
+                    int capacidad, 
+                    boolean balcon, 
+                    boolean vista, 
+                    boolean cocinaIntegrada,
+                    ArrayList&lt;Cama&gt; camas)
++getId() : int
++getUbicacion() : String 
++getCapacidad() : int 
++getTipo() : String    
++hasBalcon() : boolean  
++hasVista() : boolean  
++hasCocina() : boolean   
++getCamas() : ArrayList&lt;Cama&gt;
++getHospedados(): ArrayList&lt;Cliente&gt;
++getTitular(): Huesped
++agregarCama(cama:Cama) : void
++removerCama(cama:Cama) : void
++agregarServicio(Servicio servicio) : void
++hacerCheckOut() : void
++asignarCliente(Cliente hospedado): void
++asignarTitular(Huesped titular): void
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>364</x>
+      <y>264</y>
+      <w>180</w>
+      <h>444</h>
+    </coordinates>
+    <panel_attributes>Pms
+--
+-inventarioHabitaciones: ArrayList&lt;Habitaciones&gt;
+-tarifasVigentes: ArrayList&lt;Tarifa&gt;
+-inventarioServicios: ArrayList&lt;Servicio&gt;
+-reservas: ArrayList&lt;Reserva&gt;
+-grupos: ArrayList&lt;Grupo&gt;
+-facturas: ArrayList&lt;String&gt;
+-historialHuespedes&lt;String&gt;
+
+-persistencia: Persistencia
+-usuarios: ArrayList&lt;Usuario&gt;
+--
++Pms(boolean cargarPersitencia)
+
+
++registrarServicio(String idServicio,
+                            boolean pagoInmediato, 
+                            boolean asignarAHabitacion,
+                            String documentoTitular,
+                            ArrayList&lt;String&gt; documentoCliente) : String
+                           
++hacerReserva(String nombreTitular, 
+                         String documentoTitular, 
+                         String emailTitular,
+                         String celularTitular,
+                         int cantidadClientes,
+                         ArrayList&lt;String&gt; datosAcompañantes,
+                         ArrayList&lt;LocalDate&gt; nochesSeleccionadas) : String 
++cancelarReserva(String documentoTitular) : boolean
++realizarCheckOut(String documentoTitular) : boolean
+
+
++crearHabitacion(String id, 
+                            String tipo, 
+                            String ubicacion,  
+                            int capacidad, 
+                            boolean balcon, 
+                            boolean vista, 
+                            boolean cocinaIntegrada,
+                            ArrayList&lt;String&gt; camas) : boolean
++crearTarifa(int precio,
+                    String tipo,
+                    String fechaInicioVigencia,
+                    String fechaFinVigencia,
+                    String rangoTarifa,
+                    ArrayList&lt;String&gt; diasSemana)
++crearMenuRestaurante(String idMenu,
+                                        int precio,
+                                        String descripcion, 
+                                        String horaInicio,
+                                        String horaFin,
+                                        boolean llevarAHabitacion) : boolean
++crearServicioSpa(String idSpa,
+                               int precio, 
+                               String descripcion) : boolean
++crearServicioGuia(String idGuia,
+                                int precio, 
+                                String descripcion)   :boolean                                                                   
+
+
+-cargarDatosPersistentes() : void
++guardarDatos() : void
+
+
++autenticacion(String loginUsuario,
+                        String constraseña): String
++registrarUsuario(String loginUsuario,
+                             String contraseña,
+                             String rol) : boolean                   
+
+
++generarArchivoLog(String idTitular): String
+
+bg=YELLOW</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>72</y>
+      <w>148</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Spa
+--
+-id: String
+-precioPersona: int
+-descripcion: String
+--
++Spa(String id,
+         int precio,
+         String descripcion)
+-asignarServicioHabitacion(Habitacion habitacion) : void
+
++getId(): String
++getPrecioPersona(): int
++getDescripcion(): String
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>164</y>
+      <w>148</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>GuiaTuristico
+--
+-id: String
+-precioGrupo: int
+-descripcion: String
+--
++GuiaTuristico(String id,
+                         int precio,
+                         String descripcion)
+-asignarServicioHabitacion(Habitacion habitacion) : void
+
++getId(): String
++getPrecioGrupo(): int
++getDescripcion(): String
+
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>352</x>
+      <y>16</y>
+      <w>144</w>
+      <h>124</h>
+    </coordinates>
+    <panel_attributes>MenuRestaurante
+--
+-idMenu: String
+-precio: int
+-descripcion: String
+-horaInicio: LocalTime
+-horaFin: LocalTime
+-llevarAHabitacion: boolean
+--
++MenuRestaurante(String idMenu,
+                                int precio,
+                                ArrayList&lt;Cliente&gt; clientes,
+                                String descripcion,
+                                LocalTime horaInicio,
+                                LocalTime horaFin)
+-asignarServicioHabitacion(Habitacion habitacion) : void
++getId(): String
++getPrecio(): String
++getDescripcion(): String
++hasLllevarHabitacion(): boolean
+bg=LIGHT_GRAY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>272</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0
+group=group-0</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>268</y>
+      <w>36</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+
+group=group-0</panel_attributes>
+    <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>92</x>
+      <y>232</y>
+      <w>112</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Cama
+--
+-tamaño: String 
+-capacidad: int
+-soloParaNiños : boolean
+--
++Cama(String tam, int cant, boolean niños)
++getTamaño() : String
++getCantidad() : int
++esSoloParaNiños() : boolean
+bg=#FFC0CB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>248</y>
+      <w>40</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0
+group=group-1</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>244</y>
+      <w>40</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+
+group=group-1</panel_attributes>
+    <additional_attributes>10.0;20.0;80.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>288</x>
+      <y>164</y>
+      <w>68</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=WHITE
+layer=0</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>288</x>
+      <y>160</y>
+      <w>68</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=*
+
+fg=BLACK
+bg=WHITE</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>648</x>
+      <y>348</y>
+      <w>84</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>Huesped
+-
+-
++Huesped(String nombre, 
+                 String documento,
+                 String email,
+                 String celular)
+
+bg=#FFEBCD</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>756</x>
+      <y>320</y>
+      <w>128</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Grupo
+-
+-huesped: Huesped
+-acompañantes: ArrayList&lt;Acompañante&gt;
+-
++Grupo(Huesped huesped, 
+             ArrayList&lt;Acompañante&gt; acompañantes)
++getHuesped(): Huesped
++getAcompañantes(): ArrayList&lt;Acompañante&gt;             
+
+bg=#FFEBCD</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>568</x>
+      <y>400</y>
+      <w>164</w>
+      <h>76</h>
+    </coordinates>
+    <panel_attributes>Reserva
+-
+-grupo: Grupo
+-nochesSeleccionadas: ArrayList&lt;LocalDate&gt;
+-habitacionesReservadas: ArrayList&lt;Habitaciones&gt;
+-
++Reserva(Grupo grupo, 
+                 ArrayList&lt;LocalDate&gt; nochesSeleccionadas, 
+                 ArrayList&lt;Habitacion&gt; habitacionesReservadas)
++getGrupo(): Grupo
++getNochesSeleccionadas(): ArrayList&lt;LocalDate&gt;
++getHabitacionesReservadas(): ArrayArrayList&lt;Habitacion&gt;
+bg=#FFC0CB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>648</x>
+      <y>280</y>
+      <w>84</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Acompañante
+-
+-huesped: Huesped
+-
++Acompañante(String nombre, 
+               String documento,
+               String email,
+               String celular,
+               Huesped huesped)
++getHuesped(): Huesped
+bg=#FFEBCD</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>552</x>
+      <y>292</y>
+      <w>84</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Cliente
+-
+#nombre: String
+#documento: int
+#email: String
+#celular: int
+#consumos: ArrayList&lt;Servicio&gt;
+--
++Cliente(String nombre, 
+               String documento,
+               String email,
+               String celular)
++getNombre(): String
++getDocumento(): int
++getEmail(): String
++getCelular(): int
+
+
+bg=#FFEBCD</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>632</x>
+      <y>316</y>
+      <w>24</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>632</x>
+      <y>368</y>
+      <w>24</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>728</x>
+      <y>348</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0
+group=group-5</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>728</x>
+      <y>344</y>
+      <w>36</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+
+group=group-5</panel_attributes>
+    <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>728</x>
+      <y>324</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0
+group=group-4</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>728</x>
+      <y>320</y>
+      <w>36</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+
+group=group-4</panel_attributes>
+    <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>552</x>
+      <y>400</y>
+      <w>24</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+</panel_attributes>
+    <additional_attributes>40.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>404</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>736</x>
+      <y>372</y>
+      <w>44</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=*
+
+fg=BLACK
+bg=WHITE</panel_attributes>
+    <additional_attributes>10.0;130.0;90.0;130.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>728</x>
+      <y>372</y>
+      <w>52</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;130.0;110.0;130.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>136</y>
+      <w>12</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>496</x>
+      <y>132</y>
+      <w>32</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;80.0;30.0;80.0;30.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>496</x>
+      <y>176</y>
+      <w>32</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>156</y>
+      <w>76</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>208</x>
+      <y>456</y>
+      <w>132</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>Tarifa
+--
+-precio: int
+-tipoHabitación: String
+-fechaInicioVigencia: LocalDate
+-fechaFinVigencia: LocalDate
+-rangoTarifa: LocalDateRange
+-diasDeLaSemana: ArrayList&lt;String&gt;
+--
++Tarifa(int precio,
+            String tipo,
+            LocalDate fechaInicioVigencia,
+            LocalDate fechaFinVigencia,
+            LocalDateRange rangoTarifa,
+            ArrayList&lt;String&gt; diasSemana)
++getPrecio():
++getTipoHabitacion():
++estaEnRango(LocalDate fechaReserva): boolean
+
+
+bg=#FFC0CB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>212</x>
+      <y>636</y>
+      <w>128</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>Persistencia
+-
+--
++Persitencia()
++leer(String archivo): ArrayList&lt;String&gt;
++escribir(String archivo, ArrayList&lt;String&gt;) :void
+
+bg=YELLOW
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>636</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>212</y>
+      <w>12</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>212</y>
+      <w>16</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>552</x>
+      <y>260</y>
+      <w>228</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=*
+
+fg=BLACK
+bg=WHITE</panel_attributes>
+    <additional_attributes>10.0;20.0;550.0;20.0;550.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>264</y>
+      <w>240</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;580.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>256</x>
+      <y>572</y>
+      <w>84</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Usuario
+--
+-login: String
+-contraseña: String
+-rol: String
+--
++getLogin(): String
++getContraseña: String
++getRol: String
+bg=#FFC0CB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>588</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0
+group=group-7</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>584</y>
+      <w>36</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+
+group=group-7</panel_attributes>
+    <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>188</x>
+      <y>400</y>
+      <w>40</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=*
+
+fg=BLACK
+bg=WHITE</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0;10.0;150.0;50.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>216</x>
+      <y>400</y>
+      <w>24</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>348</x>
+      <y>480</y>
+      <w>24</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>476</y>
+      <w>24</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=*
+
+fg=BLACK
+bg=WHITE</panel_attributes>
+    <additional_attributes>40.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>940</y>
+      <w>96</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>FPrincipal
+--
+-control: Control
+--
++FPrincipal(): void
++actionPerformed(ActionEvent): void
++main(String[]): void
+bg=YELLOW</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>1244</y>
+      <w>124</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>FCrearGuia
+--
++FCrearGuia(Control control): void
+#crearServicio(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>1164</y>
+      <w>124</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>FCrearHabitacion
+--
+--
++CrearHabitacion(Control control): void
+#crearHabitacion(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>1204</y>
+      <w>124</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>FCrearMenuRestaurante
+--
+-
++CrearMenuRestaurante(Control control): void
+#crearHabitacion(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>1044</y>
+      <w>124</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>FCrearServicioSpa
+--
+-
++CrearServicioSpa(Control control): void
+#crearServicioSpa(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>1004</y>
+      <w>124</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>FCrearTarifa
+--
+-
++FCrearTarifa(Control control): void
+#guardarTarifa(): void
+#volver(): void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>1084</y>
+      <w>124</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>FEliminarUsuario
+--
+-
++FEliminarUsuario(Control control): void
+#eliminarUsuario(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>1124</y>
+      <w>124</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>FGenerarHistorialGrupo
+--
+--
++FGenerarHistorialGrupo(Control control): void
+#generarHistorial(): void
+#volver(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>1004</y>
+      <w>96</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>FMenuAdministrador
+--
+-
++FMenuAdministrador(Control control): void
++actionPerformed(ActionEvent)
+
+#eliminarUsuario(): void
+#crearHabitacion(): void
+#crearTarifa(): void 
+#crearMenuRst(): void
+#crearSpa(): void
+#crearGuia(): void
+#generarHistorial(): void
+#msgGuardarCambios(): void
+#msgCerrarSesion(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>940</y>
+      <w>124</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>FRegistrarse
+--
+-
++FRegistrarse(Control control): void
++actionPerformed(ActionEvent)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>296</x>
+      <y>900</y>
+      <w>92</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>Observer
+&lt;&lt;Interfaz&gt;&gt;
+--
++update(Observable, Object): void
+bg=CYAN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>924</y>
+      <w>68</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;150.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>492</x>
+      <y>940</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>444</x>
+      <y>980</y>
+      <w>12</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>492</x>
+      <y>1004</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>492</x>
+      <y>1004</y>
+      <w>36</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;120.0;70.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>492</x>
+      <y>1004</y>
+      <w>36</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;220.0;70.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>492</x>
+      <y>1004</y>
+      <w>36</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;320.0;70.0;320.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>492</x>
+      <y>1004</y>
+      <w>36</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;420.0;70.0;420.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>492</x>
+      <y>1004</y>
+      <w>36</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;520.0;70.0;520.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>492</x>
+      <y>1004</y>
+      <w>36</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;610.0;70.0;610.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>416</x>
+      <y>220</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>Observable
+&lt;&lt;Abstract&gt;&gt;
+--
+
+bg=CYAN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>452</x>
+      <y>244</y>
+      <w>12</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>296</x>
+      <y>740</y>
+      <w>308</w>
+      <h>124</h>
+    </coordinates>
+    <panel_attributes>Control
+--
+-pms: Pms
+-
++Control(FPrincipal): void
++guardarCambios(): void
++cargarSerializable(): void
++getNumeroUsuarios(): String
++registrarUsuario(String loginUsuario, String contrasena, String rol): boolean
++getAutenticacionUsuario(String loginUsuario, String contrasena): String
++eliminarUsuario(String login): boolean
++crearHabitacion(String id, String descripcion, String tipo, String ubicacion, int capacidad, boolean balcon, boolean vista,
+			                           boolean cocinaIntegrada, ArrayList&lt;String&gt; camas): boolean
++crearTarifa(int precio, String tipo, String fechaInicioVigencia, String fechaFinVigencia, String diasDeLaSemana): boolean
++crearMenuRst(String idMenu, int precio, String descripcion, String horaInicio, String horaFin,
+			                          boolean llevarAHabitacion): boolean
++crearSpa(String idSpa, int precio, String descripcion, boolean asignarAHabitacion): boolean
++crearGuiaTuristico(String idGuia, int precio, String descripcion, boolean asignarAHabitacion): boolean
++generarHistorialGrupo(String idTitular): String
+
+
+
+
+
+bg=YELLOW</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>56</x>
+      <y>0</y>
+      <w>848</w>
+      <h>716</h>
+    </coordinates>
+    <panel_attributes>Modelo
+--
+bg=orange
+layer=-4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>56</x>
+      <y>720</y>
+      <w>852</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Controlador
+--
+bg=orange
+layer=-4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>332</x>
+      <y>636</y>
+      <w>40</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0
+group=group-2</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>332</x>
+      <y>632</y>
+      <w>40</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+
+group=group-2</panel_attributes>
+    <additional_attributes>10.0;20.0;80.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>444</x>
+      <y>704</y>
+      <w>12</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=BLACK</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>0</x>
+      <y>468</y>
+      <w>40</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=DARK_GRAY
+layer=0</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>444</x>
+      <y>704</y>
+      <w>16</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>56</x>
+      <y>880</y>
+      <w>852</w>
+      <h>408</h>
+    </coordinates>
+    <panel_attributes>Controlador
+--
+bg=orange
+layer=-4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>444</x>
+      <y>860</y>
+      <w>12</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=BLACK</panel_attributes>
+    <additional_attributes>10.0;200.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>444</x>
+      <y>860</y>
+      <w>16</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>460</x>
+      <y>860</y>
+      <w>12</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=BLACK</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>460</x>
+      <y>864</y>
+      <w>16</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+</diagram>
