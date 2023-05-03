@@ -38,6 +38,7 @@ public class FPrincipal extends JFrame implements ActionListener, Observer  {
 	private Control control;
 	private JFrame FRegistrarse;
 	private JFrame FMenuAdministrador;
+	private JFrame FMenuEmpleado;
 	
 	private JPanel pCenter = new JPanel(new GridBagLayout());
 	private JLabel lBienvenida = new JLabel("Bienvenido al sistema PMS", SwingConstants.CENTER);
@@ -57,6 +58,7 @@ public class FPrincipal extends JFrame implements ActionListener, Observer  {
 		this.control = new Control(this);
 		this.FRegistrarse = new FRegistrarse(this.control);
 		this.FMenuAdministrador = new FMenuAdministrador(this.control);
+		this.FMenuEmpleado = new FMenuEmpleado(this.control);
 		control.cargarSerializable();
 		
 		// Configurar ventana
@@ -176,7 +178,10 @@ public class FPrincipal extends JFrame implements ActionListener, Observer  {
 			    this.dispose();
 			}
 			else if (autenticacion.equalsIgnoreCase("Empleado")) {
-				//TODO IMPLEMENTAR MENU EMPLEADO
+				this.setVisible(false);
+				this.FMenuEmpleado.setVisible(true);
+				this.dispose();
+				
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Login o contraseña incorrectos. Revise y vuelva a intentarlo.", "Inicio de Sesión Fallido", JOptionPane.INFORMATION_MESSAGE);
