@@ -615,6 +615,17 @@ public class Pms extends Observable implements Serializable {
 		return inventario.toString();
 	}
 	
+	public ArrayList<String[]> getServicios()
+	{
+		ArrayList<String[]> Inventario = new ArrayList<String[]>();
+		for (Servicio servicio: this.inventarioServicios) 
+		{
+			String[] s = {servicio.getId(), Integer.toString(servicio.getPrecio()), servicio.getDescripcion()}; 
+			Inventario.add(s);
+		}
+		return Inventario;
+		
+	}
 	public String mostrarInventarioHabitaciones(ArrayList<Habitacion> hDisponibles) {
 	    //es una sobrecarga para mostrar el inventario de habitaciones disponibles
 		StringBuilder inventario = new StringBuilder();

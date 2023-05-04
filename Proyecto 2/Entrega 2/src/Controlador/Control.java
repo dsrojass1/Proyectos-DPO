@@ -80,4 +80,9 @@ public class Control {
 	public String generarHistorialGrupo(String idTitular) {
 		return pms.generarHistorialGrupo(idTitular);
 	}
+	
+	public ArrayList<String[]> mostrarInventarioServicios() 
+	{
+		return pms.getServicios();
+	}
 }
