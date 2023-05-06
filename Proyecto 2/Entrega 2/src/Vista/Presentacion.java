@@ -447,7 +447,7 @@ public class Presentacion {
     	//obtener las variables que permitiran buscar al cliente
     	System.out.println("Digite el numero de documento del huesped titular: ");
     	String documentoTitular=scanner.nextLine();
-    	if(pms.realizarCheckOut(documentoTitular)) 
+    	if(pms.realizarCheckOut(documentoTitular)!="Hubo un error") 
     	{
     		System.out.println("Realizado con exito");
     	}else 
@@ -499,7 +499,7 @@ public class Presentacion {
     	
     	
     	//Hacer la reserva
-    	System.out.println(pms.hacerReserva(nombreTitular, documentoTitular, emailTitular, celularTitular, cantidadClientes, datosAcompanantes, rangoFechas));	
+    	//System.out.println(pms.hacerReserva(nombreTitular, documentoTitular, emailTitular, celularTitular, cantidadClientes, datosAcompanantes, rangoFechas));	
     	
     }
     
@@ -510,7 +510,7 @@ public class Presentacion {
     	
     	System.out.println("Digite el numero de dias que el grupo se ha hospedado: ");
     	int nDias=scanner.nextInt();
-    	if(pms.cancelarReserva(documentoTitular, nDias)) 
+    	if(pms.cancelarReserva(documentoTitular, nDias)!="Hubo un error") 
     	{
     		System.out.println("Realizado con exito");
     	}else 

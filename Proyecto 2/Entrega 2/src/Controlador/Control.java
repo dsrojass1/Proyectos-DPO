@@ -1,10 +1,22 @@
 package Controlador;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Stack;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import Modelo.Acompanante;
+import Modelo.Cliente;
+import Modelo.Habitacion;
+import Modelo.Huesped;
 import Modelo.Pms;
+import Vista.FInventarioHabitaciones;
 import Vista.FPrincipal;
+import Vista.Presentacion;
 import persistencia.Persistencia;
 
 public class Control {
@@ -84,5 +96,102 @@ public class Control {
 	public ArrayList<String[]> mostrarInventarioServicios() 
 	{
 		return pms.getServicios();
+	}
+	
+	public String realizarReserva(String nombreTitular, String documentoTitular, String emailTitular,
+			String celularTitular, int cantidadClientes, ArrayList<String> datosAcompañantes, String fechainicio, String fechasalida, FInventarioHabitaciones screen) 
+	{
+		Huesped huesped = new Huesped(nombreTitular, documentoTitular, emailTitular, celularTitular);
+		ArrayList<LocalDate> fechas = this.pms.sortListByDate(fechainicio, fechasalida);
+		ArrayList<Acompanante> acompanantes = pms.CrearAcompanantes(datosAcompañantes, cantidadClientes, huesped);
+		Huesped newh = new Huesped(nombreTitular, documentoTitular, emailTitular, celularTitular);
+		ArrayList<Habitacion> habitacionesSeleccionadas = AsignarHabitaciones(getClientesReserva(acompanantes, huesped),
+				huesped ,getHabitacionDisponibilidadFechas(fechas), screen);
+		return pms.hacerReserva(huesped, cantidadClientes, acompanantes, fechas, habitacionesSeleccionadas);
+	}
+	
+	public String getInventariohabitaciones(ArrayList<Habitacion> hDisponibles) 
+	{
+		if (hDisponibles== null)
+		{
+			return pms.mostrarInventarioHabitaciones();
+		}else 
+		{
+			return pms.mostrarInventarioHabitaciones(hDisponibles);
+		}
+	}
+	
+	public ArrayList<Habitacion> getHabitacionDisponibilidadFechas(ArrayList<LocalDate> fechas) 
+	{
+		return pms.getHabitacionesDisponibilidadFechas(fechas);
+	}
+	
+	private ArrayList<Habitacion> AsignarHabitaciones(ArrayList<Cliente> clientes, Huesped huesped,
+			ArrayList<Habitacion> habitacionesDispo, FInventarioHabitaciones screen) 
+	{
+		HashMap<String, Integer> controlCapacidadHabitaciones = new HashMap<String, Integer>();
+		
+		//crear una varible para tener en cuenta la capacidad de cada habitacion
+		
+		for(Habitacion h : habitacionesDispo) 
+		{
+			controlCapacidadHabitaciones.put(h.getId(), h.getCapacidad());
+		}
+		
+		//Asignar las habitaciones para cada cliente
+		ArrayList<Habitacion> hTomadas= new ArrayList<Habitacion>();
+		
+		//crear la pantallita para pedir los ids de las habitaciones que se le asignaran a cada cliente
+		
+		for(Cliente cliente : clientes) 
+		{
+			String id;
+			String inventario = getInventariohabitaciones(habitacionesDispo);
+			//pedir input al usuario
+			//imprimir el inventario y preguntar el id de la habitacion
+			//System.out.println("Digite ID de la habitacion que desea asignar: ");
+			screen.actualizarInventario(inventario);
+			id = screen.getnewId(cliente.getNombre());
+			//asignar a habitacion a los acompañantes
+			Habitacion habita = pms.buscarAsignarHabitacion(cliente, habitacionesDispo, id, controlCapacidadHabitaciones, huesped);
+			if(habita != null) 
+			{
+				hTomadas.add(habita);
+			}
+		}
+		screen.setVisible(false);
+		screen.dispose();
+		return hTomadas;
+	}
+	
+	ArrayList<Cliente> getClientesReserva(ArrayList<Acompanante>Acompanantes, Huesped huesped)
+	{
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		if(Acompanantes!=null)
+		{
+			for(Acompanante acompanante:Acompanantes) 
+			{
+				clientes.add(acompanante);
+			}
+		}
+		clientes.add(huesped);
+		return clientes;
+	}
+	
+	public String HacerCheckout(String idTitular) 
+	{
+		return pms.realizarCheckOut(idTitular);
+	}
+	
+	public String CancelarReserva (String idT, int nNoches) 
+	{
+		return pms.cancelarReserva(idT, nNoches);
+	}
+	
+	public Boolean registrarConsumo(String idServicio, Boolean pagoInmediato, Boolean AsignaraHabitacion,
+			String DocumentoT, ArrayList<String> DocumentosClientes, Boolean UsarTitular) 
+	{
+		return pms.registrarServicio(idServicio, pagoInmediato, AsignaraHabitacion,DocumentoT,
+				DocumentosClientes, UsarTitular);
 	}
 }

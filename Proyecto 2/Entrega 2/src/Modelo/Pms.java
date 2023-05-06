@@ -80,13 +80,19 @@ public class Pms extends Observable implements Serializable {
 		//verificar que el servicio y el grupo existan
 		if (srvc != null && grupo!=null) 
 		{
-			//asignar a clientes acompañantes
-			ArrayList<Acompanante> acompanantes = getAcompañantesbyDocuments(documentosClientes, grupo);
-			for (Acompanante acompanante : acompanantes) 
+			if(documentosClientes.size()>0)
 			{
-				//añadir consumo
-				srvc.asignarServicioCliente(acompanante);
-				//acompanante.getHuesped().consumos.add(srvc);
+				//asignar a clientes acompañantes
+				ArrayList<Acompanante> acompanantes = getAcompañantesbyDocuments(documentosClientes, grupo);
+				if(acompanantes!= null)
+				{
+					for (Acompanante acompanante : acompanantes) 
+					{
+						//añadir consumo
+						srvc.asignarServicioCliente(acompanante);
+						//acompanante.getHuesped().consumos.add(srvc);
+					}
+				}
 			}
 			// añadir consumo al huesped si es necesario
 			if (usarHTitular == true) 
@@ -116,46 +122,60 @@ public class Pms extends Observable implements Serializable {
 	}
 	
 	
-	public String hacerReserva(String nombreTitular, String documentoTitular, String emailTitular,
-			String celularTitular, int cantidadClientes, ArrayList<String> datosAcompañantes, ArrayList<LocalDate> nochesSeleccionadas) {
+	public String hacerReserva(Huesped huesped, int cantidadClientes, ArrayList<Acompanante> acompanantes, ArrayList<LocalDate> nochesSeleccionadas, ArrayList<Habitacion> habitacionesTomadas) {
 			//Crear las variables para la reserva
-			Huesped huesped = new Huesped(nombreTitular, documentoTitular, emailTitular, celularTitular);
+			//Huesped huesped = new Huesped(nombreTitular, documentoTitular, emailTitular, celularTitular);
 			
-			ArrayList<Acompanante> acompanantes = null;
+			//ArrayList<Acompanante> acompanantes = CrearAcompanantes(datosAcompañantes, cantidadClientes, huesped);
 			
-			if (cantidadClientes > 1) 
-			{
-				acompanantes = new ArrayList<Acompanante>();
-				//Crear acompañantes
-				for(String datoAcompanante : datosAcompañantes) 
-				{
-					String[] datos = datoAcompanante.split(";");
-					String nombre = datos[0], documento = datos[1], email=datos[2], celular=datos[3], huespedT = datos[4];
-					Acompanante a = new Acompanante(nombre, documento, email, celular, huesped);
-					acompanantes.add(a);
-				}
-			}
 			//crear el grupo
 			 Grupo newGrupo = new Grupo(huesped, acompanantes);
 			//seleccionar la(s) habitacion(s)
 			 //obtener habitaciones disponibles
-			 ArrayList<Habitacion> habitacionesDisponibles = getHabitacionesDisponibilidadFechas(nochesSeleccionadas);
+			 //ArrayList<Habitacion> habitacionesDisponibles = getHabitacionesDisponibilidadFechas(nochesSeleccionadas);
 			 //mostrar
-			 String inventarioH = mostrarInventarioHabitaciones(habitacionesDisponibles);
-			 System.out.println(inventarioH);
+			 //no es necesario
+			 //String inventarioH = mostrarInventarioHabitaciones(habitacionesDisponibles);
+			 //System.out.println(inventarioH);
 			 //Asignar habitacion para cada acompañante y para el titular
-			 ArrayList<Habitacion> habitacionesTomadas = AsignarHabitaciones(acompanantes, huesped, habitacionesDisponibles, cantidadClientes);
+			 //habitacionesTomadas; // = AsignarHabitaciones(acompanantes, huesped, habitacionesDisponibles, cantidadClientes);
 			 //realizar reserva
-			 Reserva newReserva = new Reserva(newGrupo, nochesSeleccionadas, habitacionesTomadas);
-			 //agregar a inventarios
-			 grupos.add(newGrupo);
-			 reservas.add(newReserva);
-			 
-			 
-		return "Se ha registrado el grupo con el titular " + newGrupo.getHuesped();
+			 if(habitacionesTomadas.isEmpty() == false)
+			 	{
+					 Reserva newReserva = new Reserva(newGrupo, nochesSeleccionadas, habitacionesTomadas);
+					 //agregar a inventarios
+					 grupos.add(newGrupo);
+					 reservas.add(newReserva);
+					 return "Se ha registrado el grupo con el titular " + newGrupo.getHuesped().getNombre();
+			 	}
+			 else 
+			 {
+				 return "No se ha podido hacer el registro";
+			 }
+		
 	}
 	
-	public boolean cancelarReserva(String documentoTitular, int diasUsados) {
+	public ArrayList<Acompanante> CrearAcompanantes(ArrayList<String> datosAcompañantes,int cantidadClientes, Huesped huesped)
+	{
+		ArrayList<Acompanante> acompanantes = new ArrayList<Acompanante>();
+		if (cantidadClientes > 0) 
+		{
+			//Crear acompañantes
+			for(String datoAcompanante : datosAcompañantes) 
+			{
+				String[] datos = datoAcompanante.split(";");
+				String nombre = datos[0], documento = datos[1], email=datos[2], celular=datos[3];
+				Acompanante a = new Acompanante(nombre, documento, email, celular, huesped);
+				acompanantes.add(a);
+			}
+			return acompanantes;
+		}else 
+		{
+			return null;
+		}
+	}
+	
+	public String cancelarReserva(String documentoTitular, int diasUsados) {
 		//Variables necesarias para ejecucion
 				Reserva reserva = getReserva(documentoTitular);
 				if(reserva !=null)
@@ -163,11 +183,13 @@ public class Pms extends Observable implements Serializable {
 					Grupo grupo = reserva.getGrupo();
 					//Mostrar historial de grupo
 					String historialGrupo=generarHistorialGrupo(documentoTitular);
-					System.out.println(historialGrupo);
+					//System.out.println(historialGrupo);
 					//Mostrar pagos, duedas, etc
 					
-					System.out.println("El monto que le falta por pagar es: ");
-					System.out.println(reserva.getDeuda()+getValorHabitaciones(reserva, diasUsados));
+					//System.out.println("El monto que le falta por pagar es: ");
+					//System.out.println(reserva.getDeuda()+getValorHabitaciones(reserva, diasUsados));
+					int pay =reserva.getDeuda()+getValorHabitaciones(reserva, diasUsados);
+					String valor="\nEl monto que le falta por pagar es:\n"+pay;
 					
 					//agregar al historial de huespedes
 					this.historialHuespedes.add(historialGrupo);
@@ -181,13 +203,13 @@ public class Pms extends Observable implements Serializable {
 					grupos.remove(grupo);
 					//eliminar reserva
 					reservas.remove(reserva);
-					return true;
+					return historialGrupo+valor;
 				}
 				
-				return false;
+				return "Hubo un error";
 	}
 	
-	public boolean realizarCheckOut(String documentoTitular) {
+	public String realizarCheckOut(String documentoTitular) {
 		
 		//Variables necesarias para ejecucion
 		Reserva reserva = getReserva(documentoTitular);
@@ -196,12 +218,10 @@ public class Pms extends Observable implements Serializable {
 			Grupo grupo = reserva.getGrupo();
 			//Mostrar historial de grupo
 			String historialGrupo=generarHistorialGrupo(documentoTitular);
-			System.out.println(historialGrupo);
+			//System.out.println(historialGrupo);
 			//Mostrar pagos, duedas, etc
-			
-			System.out.println("El monto que le falta por pagar es: ");
-			System.out.println(reserva.getDeuda()+getValorHabitaciones(reserva, reserva.getNochesSeleccionadas().size()));
-			
+			int pay = reserva.getDeuda()+getValorHabitaciones(reserva, reserva.getNochesSeleccionadas().size());
+			String valor="\nEl monto que le falta por pagar es:\n"+pay;
 			
 			//agregar al historial de huespedes
 			this.historialHuespedes.add(historialGrupo);
@@ -215,10 +235,10 @@ public class Pms extends Observable implements Serializable {
 			grupos.remove(grupo);
 			//eliminar reserva
 			reservas.remove(reserva);
-			return true;
+			return historialGrupo+valor;
 		}
 		
-		return false;
+		return "Hubo un error";
 	}
 	
 	
@@ -238,18 +258,25 @@ public class Pms extends Observable implements Serializable {
 	
 	public ArrayList<Acompanante> getAcompañantesbyDocuments(ArrayList<String> Documentos, Grupo grupo)
 	{
-		ArrayList<Acompanante> acompananteByID=new ArrayList<Acompanante>();
-		for(Acompanante acompanante : grupo.getAcompanantes()) 
+		ArrayList<Acompanante> groupAcompanates=grupo.getAcompanantes();
+		if(Documentos.size()>0 && groupAcompanates!=null)
 		{
-			for(String documento : Documentos) 
+			ArrayList<Acompanante> acompananteByID=new ArrayList<Acompanante>();
+			for(Acompanante acompanante : groupAcompanates) 
 			{
-				if(acompanante.getDocumento().equals(documento)) 
+				for(String documento : Documentos) 
 				{
-					acompananteByID.add(acompanante);
+					if(acompanante.getDocumento().equals(documento)) 
+					{
+						acompananteByID.add(acompanante);
+					}
 				}
 			}
+			return acompananteByID;
+		}else 
+		{
+			return null;
 		}
-		return acompananteByID;
 	}
 	
 	public Grupo getGrupoTD (String documentoTitular) 
@@ -303,7 +330,8 @@ public class Pms extends Observable implements Serializable {
 	}
 	
 	public ArrayList<LocalDate> sortListByDate(String date1, String date2) {
-	    LocalDate start = LocalDate.parse(date1, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+	    //Obtener un arrylits de fechas entre 2 fechas elegdas
+		LocalDate start = LocalDate.parse(date1, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	    LocalDate end = LocalDate.parse(date2, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
 	    int days = (int) start.until(end, ChronoUnit.DAYS);
@@ -347,47 +375,7 @@ public class Pms extends Observable implements Serializable {
 	}
 	
 	
-	private ArrayList<Habitacion> AsignarHabitaciones(ArrayList<Acompanante> acompanantes, Huesped huesped,
-			ArrayList<Habitacion> habitacionesD, int cantidadClientes) 
-	{
-		HashMap<String, Integer> controlCapacidadHabitaciones = new HashMap<String, Integer>();
-		
-		//crear una varible para tener en cuenta la capacidad de cada habitacion
-		
-		for(Habitacion h : habitacionesD) 
-		{
-			controlCapacidadHabitaciones.put(h.getId(), h.getCapacidad());
-		}
-		
-		//Asignar las habitaciones para cada acompanante
-		ArrayList<Habitacion> hTomadas= new ArrayList<Habitacion>();
-		if(acompanantes != null || cantidadClientes>1)
-		{
-			for(Acompanante a : acompanantes) 
-			{
-				System.out.println(mostrarInventarioHabitaciones(habitacionesD));
-				System.out.println("Digite ID de la habitacion que desea asignar: ");
-				String id = Presentacion.scanner.next();
-				//asignar a habitacion a los acompañantes
-				Habitacion habita = buscarAsignarHabitacion(a, habitacionesD, id, controlCapacidadHabitaciones, huesped);
-				if(habita != null) 
-				{
-					hTomadas.add(habita);
-				}
-			}
-		}
-		//para el huesped
-		System.out.println("Digite ID de la habitacion que desea asignar para el titular: ");
-		String id2 = Presentacion.scanner.next();
-		Habitacion habita = buscarAsignarHabitacion(huesped, habitacionesD, id2, controlCapacidadHabitaciones, huesped);
-		if(habita != null) 
-		{
-			hTomadas.add(habita);
-		}
-		return hTomadas;
-	}
-	
-	private Habitacion buscarAsignarHabitacion(Cliente cliente, ArrayList<Habitacion> inventario, String id, HashMap<String, Integer> cH, Huesped titular) 
+	public Habitacion buscarAsignarHabitacion(Cliente cliente, ArrayList<Habitacion> inventario, String id, HashMap<String, Integer> cH, Huesped titular) 
 	{
 		Habitacion habitacion=null;
 		for(Habitacion h : inventario) 
@@ -587,15 +575,15 @@ public class Pms extends Observable implements Serializable {
 	public String mostrarInventarioHabitaciones() {
 	    StringBuilder inventario = new StringBuilder();
 	    inventario.append("----------------------------------------------------------------------------------------------------------------------------------------------\n");
-	    inventario.append(String.format("| %-4s | %-35s | %-10s | %-33s | %-9s | %-6s | %-6s | %-6s | %-6s |\n",
-	                    "Id", "Descripcion", "Tipo", "Ubicacion", "Capacidad", "Balcon", "Vista", "Cocina", "#Camas"));
+	    inventario.append(String.format("| %-4s | %-35s | %-10s | %-33s | %-9s | %-6s | %-6s | %-6s | %-6s | %-6s |\n",
+	                    "Id", "Descripcion", "Tipo", "Ubicacion", "Capacidad", "Balcon", "Vista", "Cocina", "#Camas", "Precio"));
 	    inventario.append("----------------------------------------------------------------------------------------------------------------------------------------------\n");
 	    for (Habitacion habitacionEnInventario: this.inventarioHabitaciones) {
-	        inventario.append(String.format("| %4s | %-35s | %-10s | %-33s | %9d | %-6s | %-6s | %-6s | %6d |\n",
+	        inventario.append(String.format("| %4s | %-35s | %-10s | %-33s | %9d | %-6s | %-6s | %-6s | %6d |  %6s |\n",
 	                        habitacionEnInventario.getId(), habitacionEnInventario.getDescripcion(), habitacionEnInventario.getTipo(),
 	                        habitacionEnInventario.getUbicacion(), habitacionEnInventario.getCapacidad(), 
 	                        habitacionEnInventario.isBalcon() ? "Si" : "No", habitacionEnInventario.isVista() ? "Si" : "No",
-	                        habitacionEnInventario.isCocinaIntegrada() ? "Si" : "No", habitacionEnInventario.getCamas().size()));
+	                        habitacionEnInventario.isCocinaIntegrada() ? "Si" : "No", habitacionEnInventario.getCamas().size(), habitacionEnInventario.getPrecio()));
 	        inventario.append("----------------------------------------------------------------------------------------------------------------------------------------------\n");
 	    }
 	    return inventario.toString();

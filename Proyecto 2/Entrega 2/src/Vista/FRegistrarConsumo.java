@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -68,12 +70,20 @@ public class FRegistrarConsumo extends JFrame{
 		JButton Registrar = new JButton("Registrar");
 		JButton Volver = new JButton("Volver");
 		
+		Volver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				volverAtras();
+			}
+		});
 		
 		//otros
 		Dimension DForms = new Dimension(this.getBounds().width/3*2,this.getBounds().height/4);
 		
 		
-		JLabel LHuespedTId = new JLabel("Identificación del huesped titular");
+		JLabel LHuespedTId = new JLabel("Documento del huesped titular");
 		LHuespedTId.setFont(Fforms);
 		LHuespedTId.setForeground(Color.BLACK);
 		LHuespedTId.setHorizontalAlignment(JLabel.CENTER);
@@ -93,7 +103,7 @@ public class FRegistrarConsumo extends JFrame{
 		JCheckBox Lhus = new JCheckBox();
 		Lhus.setOpaque(false);
 		
-		JLabel LNAcompanantes = new JLabel("Numero de acompañantes");
+		JLabel LNAcompanantes = new JLabel("Documentos de los acompañantes (separados por ,)");
 		LNAcompanantes.setFont(Fforms);
 		LNAcompanantes.setForeground(Color.BLACK);
 		LNAcompanantes.setHorizontalAlignment(JLabel.CENTER);
@@ -124,7 +134,7 @@ public class FRegistrarConsumo extends JFrame{
 		//Modificar los jpanels
 		JPanel preguntas = new JPanel();
 		preguntas.setOpaque(false);
-		preguntas.setPreferredSize(DForms);
+		//preguntas.setPreferredSize(DForms);
 		preguntas.setLayout(new GridLayout(5,5,10,10));
 		preguntas.add(LHuespedTId);
 		preguntas.add(Thid);
@@ -144,6 +154,16 @@ public class FRegistrarConsumo extends JFrame{
 		BotonesConfirmacion.add(Registrar);
 		BotonesConfirmacion.add(Volver);
 		
+		
+		//registrar consumo
+		Registrar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				RegistrarConsumo(Lsid.getText(),Pi.isSelected(), Aah.isSelected() ,Thid.getText(), Lna.getText(), Lhus.isSelected());
+			}
+		});
 		
 		this.JOuterBox = new JPanel();
 		JOuterBox.setBackground(outLine);
@@ -196,6 +216,8 @@ public class FRegistrarConsumo extends JFrame{
 		JListaUsuarios.add(scroll, BorderLayout.CENTER);
 		//ElementosLista.add(InventarioServicios);
 		
+		//Falta crear los actionListener para los botones
+		
 		this.add(JOuterBox);
 	}
 	
@@ -236,5 +258,35 @@ public class FRegistrarConsumo extends JFrame{
 		
 		
 		return Inventario;
+	}
+	
+	private void volverAtras() 
+	{
+		this.setVisible(false);
+		FMenuEmpleado menu= new FMenuEmpleado(this.control);
+		menu.setVisible(true);
+		this.dispose();
+	}
+	
+	private void RegistrarConsumo(String idServicio, Boolean pagoInmediato, Boolean AsignaraHabitacion,
+			String DocumentoT, String DocumentosClientes, Boolean UsarTitular) 
+	{
+		ArrayList<String> dAcom= new ArrayList<String>();
+		if(DocumentosClientes != "") 
+		{
+			String[] dAcompanantes = DocumentosClientes.split(",");
+			for (String data: dAcompanantes) 
+			{
+				dAcom.add(data);
+			}
+		}
+		boolean done = control.registrarConsumo(idServicio, pagoInmediato, AsignaraHabitacion, DocumentoT, dAcom, UsarTitular);
+		if(done) 
+		{
+			JOptionPane.showMessageDialog(this, "Se registro con exito");
+		}else 
+		{
+			JOptionPane.showMessageDialog(this, "Hubo un error");
+		}
 	}
 }

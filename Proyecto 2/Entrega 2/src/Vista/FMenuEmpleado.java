@@ -175,12 +175,16 @@ public class FMenuEmpleado extends JFrame{
 	
 	protected void ConsultarHabitaciones() {
 		// TODO Auto-generated method stub
-		
+		this.setVisible(false);
+		new FInventarioHabitaciones(this.control, false);
+		this.dispose();
 	}
 
 	protected void ConsultarServicios() {
 		// TODO Auto-generated method stub
-		
+		this.setVisible(false);
+		new FInventarioServicio(this.control);
+		this.dispose();
 	}
 
 	protected void RegistrarConsumo() {
@@ -191,7 +195,9 @@ public class FMenuEmpleado extends JFrame{
 
 	protected void CancelarReserva() {
 		// TODO Auto-generated method stub
-		
+		this.setVisible(false);
+		new cancelarReserva(this.control);
+		this.dispose();
 	}
 
 	protected void GuardarCambios() {
@@ -212,12 +218,15 @@ public class FMenuEmpleado extends JFrame{
 
 	protected void CheckOut() {
 		// TODO Auto-generated method stub
-		
+		this.setVisible(false);
+		new FCheckOut(this.control);
+		this.dispose();
 	}
 
 	protected void HacerReserva() {
-		// TODO Auto-generated method stub
-		
+		this.setVisible(false);
+		new FRealizarReserva(this.control);
+		this.dispose();
 	}
 
 }
