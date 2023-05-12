@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>5</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>665</x>
+      <y>60</y>
+      <w>120</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>FPrincipal
+--
+-control: Control
+--
++FPrincipal(): void
++actionPerformed(ActionEvent): void
++main(String[]): void
+bg=YELLOW</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>815</x>
+      <y>440</y>
+      <w>155</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>FCrearGuia
+--
++FCrearGuia(Control control): void
+#crearServicio(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>815</x>
+      <y>340</y>
+      <w>155</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>FCrearHabitacion
+--
+--
++CrearHabitacion(Control control): void
+#crearHabitacion(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>815</x>
+      <y>390</y>
+      <w>155</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>FCrearMenuRestaurante
+--
+-
++CrearMenuRestaurante(Control control): void
+#crearHabitacion(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>815</x>
+      <y>190</y>
+      <w>155</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>FCrearServicioSpa
+--
+-
++CrearServicioSpa(Control control): void
+#crearServicioSpa(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>815</x>
+      <y>140</y>
+      <w>155</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>FCrearTarifa
+--
+-
++FCrearTarifa(Control control): void
+#guardarTarifa(): void
+#volver(): void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>815</x>
+      <y>240</y>
+      <w>155</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>FEliminarUsuario
+--
+-
++FEliminarUsuario(Control control): void
+#eliminarUsuario(): void
+#volver(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>815</x>
+      <y>290</y>
+      <w>155</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>FGenerarHistorialGrupo
+--
+--
++FGenerarHistorialGrupo(Control control): void
+#generarHistorial(): void
+#volver(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>635</x>
+      <y>140</y>
+      <w>150</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>FMenuAdministrador
+--
+-
++FMenuAdministrador(Control control): void
++actionPerformed(ActionEvent)
+
+#eliminarUsuario(): void
+#crearHabitacion(): void
+#crearTarifa(): void 
+#crearMenuRst(): void
+#crearSpa(): void
+#crearGuia(): void
+#generarHistorial(): void
+#cambiarCaracteristicasPropiasHotel(): void
+#msgGuardarCambios(): void
+#msgCerrarSesion(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>815</x>
+      <y>60</y>
+      <w>155</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>FRegistrarse
+--
+-
++FRegistrarse(Control control): void
++actionPerformed(ActionEvent)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>665</x>
+      <y>0</y>
+      <w>115</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>Observer
+&lt;&lt;Interfaz&gt;&gt;
+--
++update(Observable, Object): void
+bg=CYAN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>30</y>
+      <w>15</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>60</y>
+      <w>45</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>110</y>
+      <w>15</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>140</y>
+      <w>45</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>140</y>
+      <w>45</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;120.0;70.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>140</y>
+      <w>45</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;220.0;70.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>140</y>
+      <w>45</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;320.0;70.0;320.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>140</y>
+      <w>45</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;420.0;70.0;420.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>140</y>
+      <w>45</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;520.0;70.0;520.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>140</y>
+      <w>45</w>
+      <h>315</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;610.0;70.0;610.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>65</y>
+      <w>295</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>570.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>75</y>
+      <w>295</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;570.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>20</y>
+      <w>385</w>
+      <h>155</h>
+    </coordinates>
+    <panel_attributes>Control
+--
+-pms: Pms
+-principal: FPrincipal
+-
++Control(FPrincipal): void
++guardarCambios(): void
++cargarSerializable(): void
++getNumeroUsuarios(): String
++registrarUsuario(String loginUsuario, String contrasena, String rol): boolean
++getAutenticacionUsuario(String loginUsuario, String contrasena): String
++eliminarUsuario(String login): boolean
++crearHabitacion(String id, String descripcion, String tipo, String ubicacion, int capacidad, boolean balcon, boolean vista,
+			                           boolean cocinaIntegrada, ArrayList&lt;String&gt; camas): boolean
++crearTarifa(int precio, String tipo, String fechaInicioVigencia, String fechaFinVigencia, String diasDeLaSemana): boolean
++crearMenuRst(String idMenu, int precio, String descripcion, String horaInicio, String horaFin,
+			                          boolean llevarAHabitacion): boolean
++crearSpa(String idSpa, int precio, String descripcion, boolean asignarAHabitacion): boolean
++crearGuiaTuristico(String idGuia, int precio, String descripcion, boolean asignarAHabitacion): boolean
++generarHistorialGrupo(String idTitular): String
+
+
+
+
+
+bg=YELLOW</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>140</y>
+      <w>140</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>FMenuEmpleado
+-
++FMenuEmpleado(Control control)
+#HacerReserva():void
+#ConsultarHabitaciones():void
+#ConsultarServicios():void
+#RegistrarConsumo():void
+#CheckOut() : void
+#CancelarReserva() : void
+#CerrarSesion() : void
+#GuardarCambios() : void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>255</y>
+      <w>140</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>FRealizarReserva
+-
++FRealizarReserva(Control control):void
+-AddAcompananteData(String data):void
+-FechasForm():JPanel
+-FormAcompanante() : JPanel
+-FormEnviarVolver(): Jpanel
+-FormTitular(): JPanel
+-volverAtras():void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>450</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>FInventarioServicios
+-
++FInventarioServicios(Control control): void
+-mostrarInventarioS() : Jpanel
+-volverAtras(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>350</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>FInventarioHabitaciones
+-
++FInventarioHabitaciones(Control control, Boolean AskID):void
++actualizarInventario(String newInventario):void
+-controls(Boolean askIds):Jpanel
+-GetInventarioH(Font font):Jpanel
++getnewId(String name):String
+-volverAtras():void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>520</y>
+      <w>290</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>FRegistrarConsumo
+-
++FResgistrarConsumo(Control control):void
+-mostrarInventarioS():Jpanel
+-RegistrarConsumo(String idServicio, Boolean pagoInmediato, Boolean AsignaraHabitacion,
+,String DocumentoT, String DocumentosClientes, Boolean UsarTitular): void
+-volverAtras():void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>465</x>
+      <y>610</y>
+      <w>135</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>FCheckOut
+-
++FChechkOut(Control control):void
+-finalPanel(Font font):Jpanel
+-hacerChechOut(String id):void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>465</x>
+      <y>675</y>
+      <w>135</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>cancelarReserva
+-
++cancelarReserva(Control control):void
+-cancelarR(String id, int dias):String
+-finalPanel(Font font):Jpanel
+-volverAtras():void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>435</x>
+      <y>155</y>
+      <w>45</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0;10.0;230.0;70.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>435</x>
+      <y>155</y>
+      <w>45</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0;10.0;420.0;70.0;420.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>435</x>
+      <y>155</y>
+      <w>45</w>
+      <h>335</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0;10.0;650.0;70.0;650.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>435</x>
+      <y>155</y>
+      <w>45</w>
+      <h>410</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0;10.0;800.0;70.0;800.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>435</x>
+      <y>155</y>
+      <w>45</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0;10.0;960.0;60.0;960.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>435</x>
+      <y>155</y>
+      <w>45</w>
+      <h>560</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0;10.0;1100.0;60.0;1100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>605</x>
+      <y>145</y>
+      <w>40</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
