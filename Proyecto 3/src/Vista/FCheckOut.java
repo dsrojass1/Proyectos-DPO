@@ -8,10 +8,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -174,7 +176,29 @@ public class FCheckOut extends JFrame{
 	
 	private String hacerCheckout(String id) 
 	{
-		String result = control.HacerCheckout(id);
+		
+		String nombrePasarela = JOptionPane.showInputDialog(this,"Con qué pasarela de pago se efectuará el pago?");
+		String numeroTarjeta = JOptionPane.showInputDialog(this,"Número tarjeta:");
+		String nombrePropietario = JOptionPane.showInputDialog(this,"Nombre propietario:");
+		String fechaExpiracion = JOptionPane.showInputDialog(this,"Fecha expiración:");
+		String cvv = JOptionPane.showInputDialog(this,"CVV:");
+		int total = Integer.parseInt(JOptionPane.showInputDialog(this,"Monto total a pagar:"));
+		
+		ArrayList<String> infoTarjeta = new ArrayList<String>();
+		infoTarjeta.add(numeroTarjeta);
+		infoTarjeta.add(nombrePropietario);
+		infoTarjeta.add(fechaExpiracion);
+		infoTarjeta.add(cvv);
+		
+		boolean resultadoTransaccion = this.control.realizarPago(nombrePasarela, infoTarjeta, total);
+		
+		String result;
+		if (resultadoTransaccion) {
+			result = control.HacerCheckout(id);
+			JOptionPane.showMessageDialog(this, "Pago realizado con éxito. Se ha hecho checkout de manera exitosa. Vuelva pronto!");
+		} else {
+			result = "Pago rechazado";
+		}
 		return result;
 	}
 	

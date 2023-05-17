@@ -206,4 +206,8 @@ public class Control {
 	, boolean isAdmiteMascotas) {
 		pms.cambiarCaracteristicasHotel(isParqueaderoPago, isParqueaderoGratuito, isPiscina, isZonasHumedas, isBbq, isWifiGratis, isRecepcion24Horas, isAdmiteMascotas);	
 	}
+	
+	public boolean realizarPago(String nombrePasarela, ArrayList<String> informacionTarjeta, int montoTotal) {
+		return pms.realizarPago(nombrePasarela, informacionTarjeta, montoTotal);
+	}
 }

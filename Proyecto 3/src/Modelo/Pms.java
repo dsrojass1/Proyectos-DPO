@@ -14,6 +14,9 @@ import java.util.Observable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import Pagos.CreditCardInfo;
+import Pagos.PaymentGateway;
+import Pagos.PaymentResult;
 import persistencia.Persistencia;
 import Vista.Presentacion;
 
@@ -516,6 +519,11 @@ public class Pms extends Observable implements Serializable {
 		this.isAdmiteMascotas= isAdmiteMascotas;		
 	}
 		
+	public boolean realizarPago(String nombrePasarela, ArrayList<String> informacionTarjeta, int montoTotal) {
+		PaymentGateway pasarela = new PaymentGateway();
+		CreditCardInfo cardInfo = new CreditCardInfo(informacionTarjeta.get(0), informacionTarjeta.get(1), informacionTarjeta.get(2), informacionTarjeta.get(3));
+		return pasarela.processPayment(nombrePasarela, cardInfo, montoTotal);
+	}
 	
 	//---------------------------------------------------------------------------------------------------------------------
 	// INICIO DE SESION Y REGISTRO ----------------------------------------------------------------------------------------
