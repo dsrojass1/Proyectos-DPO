@@ -1,17 +1,150 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="15.0.0">
-  <zoom_level>10</zoom_level>
+<diagram program="umlet" version="15.1.0">
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>350</x>
-      <y>300</y>
-      <w>210</w>
-      <h>70</h>
+      <x>280</x>
+      <y>112</y>
+      <w>456</w>
+      <h>80</h>
     </coordinates>
-    <panel_attributes>TODO: Completar diagrama
+    <panel_attributes>GestorReservas  
 --
-</panel_attributes>
+- baseDatosReservas: BaseDatosReservas
+--
++ consultarDisponibilidad(fechaInicio: fecha, fechaFin: fecha): Habitacion[]
++ crearReserva(habitacion: Habitacion, huespedes: Huesped[], fechaInicio: fecha, fechaFin: fecha): Reserva
++ pagarReserva(reserva: Reserva, infoTarjetaCredito: InfoTarjetaCredito): boolean</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>32</x>
+      <y>416</y>
+      <w>448</w>
+      <h>304</h>
+    </coordinates>
+    <panel_attributes>Habitacion
+--
+- numero: int 
+- tamaño: int  
+- aireAcondicionado: boolean
+- calefaccion: boolean 
+- tamañoCama: string
+- tieneTV: boolean    
+- tieneCafetera: boolean 
+- tieneRopaCamaHipoalergenica: boolean 
+- tienePlancha: boolean  
+- tieneSecadorPelo: boolean 
+- voltajeAC: int   
+- tomasUSBA: int   
+- tomasUSBC: int   
+- incluyeDesayuno: boolean 
+- parqueaderoPago: boolean 
+- parqueaderoGratis: boolean 
+- piscina: boolean       
+- zonasHumedas: boolean  
+- BBQ: boolean           
+- wifiGratis: boolean    
+- recepcion24Horas: boolean 
+- admiteMascotas: boolean </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>280</y>
+      <w>336</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>BaseDatosReservas
+--
+- habitaciones: Habitacion[]
+--
++ agregarHabitacion(habitacion: Habitacion)
++ eliminarHabitacion(habitacion: Habitacion)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>392</x>
+      <y>0</y>
+      <w>224</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Aplicación huéspedes
+--
+- gestorReservas: GestorReservas
+--
++ mostrarMenu() </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>280</y>
+      <w>448</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>Huesped 
+--
+- nombre: string 
+- apellido: string 
+- correoElectronico: string
+- login: string  
+- contraseña: string
+--
++ Huesped(nombre: string, apellido: string, correo: string, login: string, contraseña: string)
++ obtenerNombreCompleto(): string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>504</x>
+      <y>56</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>224</x>
+      <y>184</y>
+      <w>296</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;70.0;350.0;70.0;350.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>224</x>
+      <y>336</y>
+      <w>24</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>496</x>
+      <y>184</y>
+      <w>392</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>470.0;120.0;470.0;70.0;10.0;70.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
