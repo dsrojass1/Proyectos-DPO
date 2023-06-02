@@ -5,14 +5,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import org.jfree.chart.ChartPanel;
 
 import Controlador.Control;
 
@@ -21,6 +26,7 @@ public class FGraficar extends JFrame{
 	private JPanel JInnerBox;
 	private JPanel JOuterBox;
 	private JPanel JTitulo;
+	private JPanel JGrafica;
 	
 	
 	public FGraficar(Control control) {
@@ -41,11 +47,14 @@ public class FGraficar extends JFrame{
 		Font Ftitulo=new Font("Arial", Font.BOLD, 20);
 		//Font Fforms = new Font("Arial Black", Font.BOLD, 10);
 		
+		JButton volver = new JButton("Volver");
+		
 		//Labels
 		JLabel Ltitulo = new JLabel("Graficar");
 		Ltitulo.setFont(Ftitulo);
 		Ltitulo.setForeground(Color.WHITE);
 		Ltitulo.setHorizontalAlignment(JLabel.CENTER);
+		
 		
 		
 		//--------------------------------------------
@@ -63,6 +72,8 @@ public class FGraficar extends JFrame{
 		JTitulo.add(new JLabel("   "));
 		JTitulo.add(Ltitulo);
 		
+		this.JGrafica = Graficar();
+		
 		
 		//Añadir al frame
 		JOuterBox.add(new JLabel("     "), BorderLayout.NORTH);
@@ -71,8 +82,59 @@ public class FGraficar extends JFrame{
 		JOuterBox.add(new JLabel("     "), BorderLayout.WEST);
 		JOuterBox.add(JInnerBox, BorderLayout.CENTER);
 		
+		JInnerBox.add(JTitulo, BorderLayout.NORTH);
+		JInnerBox.add(JGrafica, BorderLayout.CENTER);
+		JInnerBox.add(volver, BorderLayout.SOUTH);
+		
+		
 		this.add(JOuterBox);
 		this.setVisible(true);
+		
+		
+		//botons actions----------------------
+		
+		volver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				volverAtras();
+			}
+		});
+	}
+	
+	private JPanel Graficar() 
+	{
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(3,2));
+		//-----------------------------------
+		ChartPanel Cpanel1 = this.control.graficarConsumosGlobales();
+		Cpanel1.setMouseWheelEnabled(true);
+		panel.add(Cpanel1);
+		//------------------------------------
+		ChartPanel Cpanel2 = this.control.graficarValorConsumosPorFecha();
+		Cpanel2.setMouseWheelEnabled(true);
+		panel.add(Cpanel2);
+		
+		//------------------------------------
+		ChartPanel Cpanel3 = this.control.graficarConsumosPorSemana();
+		Cpanel3.setMouseWheelEnabled(true);
+		panel.add(Cpanel3);
+		
+		//------------------------------------
+		ChartPanel Cpanel4 = this.control.graficarConsumosPorPrecio();
+		Cpanel4.setMouseWheelEnabled(true);
+		panel.add(Cpanel4);
+		
+		return panel;
+	}
+	
+	private void volverAtras() 
+	{
+		this.setVisible(false);
+		FMenuAdministrador menu= new FMenuAdministrador(this.control);
+		menu.setVisible(true);
+		this.dispose();
 	}
 
 }

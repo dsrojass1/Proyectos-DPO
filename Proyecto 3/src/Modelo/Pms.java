@@ -2,17 +2,23 @@ package Modelo;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Observable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.jfree.chart.ChartPanel;
 
 import Pagos.CreditCardInfo;
 import Pagos.PaymentGateway;
@@ -28,6 +34,10 @@ public class Pms extends Observable implements Serializable {
 	private ArrayList<Grupo> grupos;
 	private ArrayList<String> facturas;
 	private ArrayList<String> historialHuespedes;
+	private Hashtable<String, Integer> historialConsumosGlobales;
+	private Hashtable<String, Integer> valorFacturasPorFecha;
+	//dias de la semana en que mas se vende O
+	//valor de producto y numero de ventas
 	private ArrayList<Usuario> usuarios;
 	
 	private Persistencia persistencia;
@@ -52,6 +62,8 @@ public class Pms extends Observable implements Serializable {
 		this.historialHuespedes = new ArrayList<String>();
 		this.usuarios = new ArrayList<Usuario>();
 		this.persistencia = new Persistencia();
+		this.historialConsumosGlobales = new Hashtable<String, Integer>();
+		this.valorFacturasPorFecha = new Hashtable<String, Integer>();
 	}
 	
 	
@@ -78,18 +90,13 @@ public class Pms extends Observable implements Serializable {
 	public boolean registrarServicio(String idServicio, boolean pagoInmediato, boolean asignarAHabitacion, String documentoTitular,
 		ArrayList<String> documentosClientes, boolean usarHTitular) {
 		
+		int numero_de_consumos=documentosClientes.size();
 		//variables necesarias para registro
 		boolean done=false;
 		Servicio srvc= null;
 		Grupo grupo=getGrupoTD(documentoTitular);
 		//Obtener servicio por id
-		for(Servicio servicio : inventarioServicios) 
-		{
-			if(servicio.getId().equals(idServicio)) 
-			{
-				srvc = servicio;
-			}
-		}
+		srvc = getServicioByID(idServicio);
 		//verificar que el servicio y el grupo existan
 		if (srvc != null && grupo!=null) 
 		{
@@ -111,6 +118,7 @@ public class Pms extends Observable implements Serializable {
 			if (usarHTitular == true) 
 			{
 				srvc.asignarServicioCliente(grupo.getHuesped());
+				numero_de_consumos +=1;
 			}
 			
 			Reserva reserva = getReserva(grupo);
@@ -129,12 +137,96 @@ public class Pms extends Observable implements Serializable {
 			}
 				
 			done = true;
+			//añadir al historial
+			addTohashTable(historialConsumosGlobales, idServicio, numero_de_consumos);
+			
+			//obtener fecha actual
+			String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			addTohashTable(valorFacturasPorFecha, fechaActual, numero_de_consumos);
+			
 		}
 		
 		return done;
 	}
 	
+	private Servicio getServicioByID(String id) 
+	{
+		Servicio srvc = null;
+		for(Servicio servicio : inventarioServicios) 
+		{
+			if(servicio.getId().equals(id)) 
+			{
+				srvc = servicio;
+			}
+		}
+		return srvc;
+	}
+	private void addTohashTable(Hashtable<String, Integer> table, String key, int value) 
+	{
+		if(table.containsKey(key) == false) 
+		{
+			table.put(key, value);
+		}else 
+		{
+			int prevVal = table.get(key);
+			table.put(key, prevVal + value);
+		}
+	}
 	
+	
+	//graficar------------------------------------------------
+	public ChartPanel graficarHistorialConsumosGlobales()
+	{
+		ChartPanel panel = new ChartPanel(Graficador.graficarSimple(this.historialConsumosGlobales,
+				"Historial de consumos globales", "Id del servicio", "Numero de compras"));
+		return panel;
+	}
+	
+	public ChartPanel graficarValorConsumosPorFecha()
+	{
+		ChartPanel panel = new ChartPanel(Graficador.graficarSimple(this.valorFacturasPorFecha, 
+				"Consumos por fecha", "Fecha", "Numero de compras"));
+		return panel;
+	}
+	
+	public ChartPanel graficarConsumosPorSemana()
+	{
+		Hashtable<String, Integer> compras_por_semana = new Hashtable<String, Integer>();
+		Enumeration<String> keys = this.valorFacturasPorFecha.keys();
+		while(keys.hasMoreElements()) 
+		{
+			String key = keys.nextElement();
+			String[] date_d = key.split("-");
+			LocalDate date = LocalDate.of(Integer.parseInt(date_d[0]), Integer.parseInt(date_d[1]), Integer.parseInt(date_d[2]));
+			
+			String dayofWeek = date.getDayOfWeek().toString();
+			
+			addTohashTable(compras_por_semana, dayofWeek, this.valorFacturasPorFecha.get(key));
+			
+		}
+		ChartPanel panel = new ChartPanel(Graficador.graficarSimple(compras_por_semana,
+				"Consumos por dia de la semana", "Dia de la semana", "Numero de consumos"));
+		return panel;
+	}
+	
+	public ChartPanel graficarConsumosPorPrecio()
+	{
+		Hashtable<String, Integer> compras_por_precio = new Hashtable<String, Integer>();
+		Enumeration<String> keys = this.historialConsumosGlobales.keys();
+		while(keys.hasMoreElements()) 
+		{
+			String key = keys.nextElement();
+			String precio = ""+(getServicioByID(key).getPrecio());
+			addTohashTable(compras_por_precio, precio, this.historialConsumosGlobales.get(key));
+		}
+		
+		ChartPanel panel = new ChartPanel(Graficador.graficarSimple(compras_por_precio,
+				"Consumos por precio de servicio", "Precio de los servicios", "Numero de consumos"));
+		return panel;
+	}
+	
+	
+	//---------------------------------------
 	public String hacerReserva(Huesped huesped, int cantidadClientes, ArrayList<Acompanante> acompanantes, ArrayList<LocalDate> nochesSeleccionadas, ArrayList<Habitacion> habitacionesTomadas) {
 			//Crear las variables para la reserva
 			//Huesped huesped = new Huesped(nombreTitular, documentoTitular, emailTitular, celularTitular);
@@ -525,6 +617,10 @@ public class Pms extends Observable implements Serializable {
 		return pasarela.processPayment(nombrePasarela, cardInfo, montoTotal);
 	}
 	
+	private void addConsumeToHistory() 
+	{
+		//añadir el consumo al historial de consumos globales
+	}
 	//---------------------------------------------------------------------------------------------------------------------
 	// INICIO DE SESION Y REGISTRO ----------------------------------------------------------------------------------------
 	//---------------------------------------------------------------------------------------------------------------------

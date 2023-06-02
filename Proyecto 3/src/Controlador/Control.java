@@ -9,6 +9,8 @@ import java.util.Stack;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.jfree.chart.ChartPanel;
+
 import Modelo.Acompanante;
 import Modelo.Cliente;
 import Modelo.Habitacion;
@@ -209,5 +211,24 @@ public class Control {
 	
 	public boolean realizarPago(String nombrePasarela, ArrayList<String> informacionTarjeta, int montoTotal) {
 		return pms.realizarPago(nombrePasarela, informacionTarjeta, montoTotal);
+	}
+	
+	public ChartPanel graficarConsumosGlobales() 
+	{
+		return this.pms.graficarHistorialConsumosGlobales();
+	}
+	
+	public ChartPanel graficarValorConsumosPorFecha() 
+	{
+		return this.pms.graficarValorConsumosPorFecha();
+	}
+	public ChartPanel graficarConsumosPorSemana() 
+	{
+		return this.pms.graficarConsumosPorSemana();
+	}
+	
+	public ChartPanel graficarConsumosPorPrecio() 
+	{
+		return this.pms.graficarConsumosPorPrecio();
 	}
 }

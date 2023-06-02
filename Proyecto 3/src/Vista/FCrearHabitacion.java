@@ -86,7 +86,7 @@ public class FCrearHabitacion extends JFrame {
 		rightPanel.setBackground(new Color(90,183,250));
 		rightPanel.setPreferredSize(new Dimension(50, 900));
 		topPanel.setBackground(new Color(90,183,250));
-		topPanel.setPreferredSize(new Dimension(900, 50));
+		topPanel.setPreferredSize(new Dimension(900, 20));
 		bottomPanel.setBackground(new Color(90,183,250));
 		bottomPanel.setPreferredSize(new Dimension(900, 50));
 

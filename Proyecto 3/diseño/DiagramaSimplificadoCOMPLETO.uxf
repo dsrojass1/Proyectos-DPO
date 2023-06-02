@@ -33,7 +33,7 @@ bg=LIGHT_GRAY</panel_attributes>
 -grupos: ArrayList&lt;Grupo&gt;
 -facturas: ArrayList&lt;String&gt;
 -historialHuespedes&lt;String&gt;
--historialConsumosGlobales: String
+-historialConsumosGlobales: HashMap&lt;String,int&gt;
 
 -persistencia: Persistencia
 -usuarios: ArrayList&lt;Usuario&gt;

@@ -164,6 +164,7 @@ public class FMenuAdministrador extends JFrame {
 		
 		// Agregar los botones al pContenido
 		this.pBotones = new JPanel();
+		
 		this.pBotones.setPreferredSize(new Dimension(850, 720));
 		this.pBotones.setBackground(new Color(171, 194, 255));
 		this.pBotones.setLayout(new GridBagLayout());
@@ -245,6 +246,12 @@ public class FMenuAdministrador extends JFrame {
 				cambiarCaracteristicasPropiasHotel();
 			}
 		});
+		
+		btGraficar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				graficar();
+			}
+		});
 				
 		btGuardarCambios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -274,7 +281,13 @@ public class FMenuAdministrador extends JFrame {
 	    this.control.cambiarCaracteristicasHotel(isParqueaderoPago, isParqueaderoGratuito, isPiscina, isZonasHumedas, isBbq, isWifiGratis, isRecepcion24Horas, isAdmiteMascotas);
 	}
 
-
+	protected void graficar() 
+	{
+		this.setVisible(false);
+		new FGraficar(control);
+		this.dispose();
+	}
+	
 	protected void eliminarUsuario() {
 		this.setVisible(false);
 		new FEliminarUsuario(control);
