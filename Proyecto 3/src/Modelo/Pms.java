@@ -617,9 +617,9 @@ public class Pms extends Observable implements Serializable {
 		return pasarela.processPayment(nombrePasarela, cardInfo, montoTotal);
 	}
 	
-	private void addConsumeToHistory() 
+	public ArrayList<Habitacion> getInventarioHabitaciones() 
 	{
-		//añadir el consumo al historial de consumos globales
+		return this.inventarioHabitaciones;
 	}
 	//---------------------------------------------------------------------------------------------------------------------
 	// INICIO DE SESION Y REGISTRO ----------------------------------------------------------------------------------------
