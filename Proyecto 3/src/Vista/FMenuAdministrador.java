@@ -39,6 +39,7 @@ public class FMenuAdministrador extends JFrame {
 	private JButton btGuardarCambios;
 	private JButton btCerrarSesion;
 	private JButton btnCambiarInfoHotel = new JButton("Cambiar características propias del hotel");
+	private JButton btGraficar;
 	
 	
 	FMenuAdministrador(Control control){
@@ -143,6 +144,12 @@ public class FMenuAdministrador extends JFrame {
 		btnCambiarInfoHotel.setForeground(Color.WHITE);
 		btnCambiarInfoHotel.setPreferredSize(new Dimension(400, 90));
 		
+		btGraficar = new JButton("Graficar ventas");
+		btGraficar.setFont(font1); 
+		btGraficar.setBackground(new Color(28, 81, 223));
+		btGraficar.setForeground(Color.WHITE);
+		btGraficar.setPreferredSize(new Dimension(400, 90));
+		
 		btGuardarCambios = new JButton("Guardar Cambios");
 		btGuardarCambios.setFont(font1); 
 		btGuardarCambios.setBackground(new Color(28, 81, 223));
@@ -161,7 +168,7 @@ public class FMenuAdministrador extends JFrame {
 		this.pBotones.setBackground(new Color(171, 194, 255));
 		this.pBotones.setLayout(new GridBagLayout());
 		GridBagConstraints gbcBotones = new GridBagConstraints();
-		gbcBotones.insets = new Insets(0, 0, 10, 0);
+		gbcBotones.insets = new Insets(0, 0, 11, 0);
 		gbcBotones.gridx = 0;
 		gbcBotones.gridy = 0;
 		gbcBotones.gridwidth = 1;
@@ -179,6 +186,8 @@ public class FMenuAdministrador extends JFrame {
 		this.pBotones.add(btCrearServicioGuiaTuristico, gbcBotones);
 		gbcBotones.gridy ++;
 		this.pBotones.add(btGenerarHistorialGrupo, gbcBotones);
+		gbcBotones.gridy ++;
+		this.pBotones.add(btGraficar, gbcBotones);
 		gbcBotones.gridy ++;
 		this.pBotones.add(btnCambiarInfoHotel, gbcBotones);
 		gbcBotones.gridy ++;
